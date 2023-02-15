@@ -27,4 +27,25 @@
 ![image](https://user-images.githubusercontent.com/116954249/219090942-8d35044a-6d21-43ed-a240-9696f789e2b9.png)
 ### AWS Budget
 - I have been experimenting with EKS which explains the below cost. But I have AWS Credits so its fine.
-- ![image](https://user-images.githubusercontent.com/116954249/219094834-fece7b2b-24e0-4917-bf94-81c7594608ed.png)
+![image](https://user-images.githubusercontent.com/116954249/219094834-fece7b2b-24e0-4917-bf94-81c7594608ed.png)
+
+## 3. AWS Security (by Ashish Rajan)
+#### AWS Organizations
+- It is a Hirerarchial structure.
+- This is a free resource
+- Used extensively by Enterprises
+![image](https://user-images.githubusercontent.com/116954249/219119306-deb59e38-7b9b-40d5-b6ab-de5317d50ec5.png)
+
+#### CloudTrail
+- It is an auditing service which audits all AWS events in your account
+- By default, it audits only in your current region. Enable all regions while creating cloudtrail.
+- 3 Types of Events : Management events, Data events, Insight events
+- Management events show information about management operations performed on resources in your AWS account.
+- Data events show information about the resource operations performed on or within a resource.
+- Insight events identify unusual activity, errors, or user behavior in your account.
+- CloudTrail has free tier for Management events: up to 5GB of CloudTrail data per month, and up to 100,000 CloudTrail events per month
+- Data and insight events have additional cost
+![image](https://user-images.githubusercontent.com/116954249/219125834-419a938c-80b7-4e3a-8e4e-a48b2e148f15.png)
+
+
+
