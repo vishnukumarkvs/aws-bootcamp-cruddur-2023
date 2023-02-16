@@ -1,6 +1,7 @@
 # Week 0 — Billing and Architecture
 
-# A. Instructional tasks
+# A. Hard Assignments
+
 # 1. C4 Model
 
 - I have used C4 model for understanding System Architecture of Cruddur application.
@@ -27,7 +28,30 @@
 
 ![Cruddur Logical Diagram](https://user-images.githubusercontent.com/116954249/219288040-0dd5ad86-43bc-4218-8639-3424cc04fc33.png)
 
-# 3. AWS Billing alerts and Budgets
+# 3. Added MFA
+- Used third-party app on mobile for MFA
+
+![MFA](https://user-images.githubusercontent.com/116954249/219421643-cc5c667e-6870-4ec0-bbdf-1de5a5e44d5c.png)
+
+# 4. Created IAM User and configured access
+- Created an alias for my account_id
+- Created an iam user and named it *kvs-aws-bootcamp*
+- Attached required policies to the user
+- Created access and secret keys to the user
+
+![newiamuser](https://user-images.githubusercontent.com/116954249/219422534-64f923be-90f4-428b-ab56-193fc2d674da.png)
+
+# 5. Cloudshell
+- AWS CloudShell is a browser-based, pre-authenticated shell that you can launch directly from the AWS Management Console. 
+- We can run AWS CLI commands here
+- `aws sts get-caller-identity` : Gives us the current aws iam user details
+- `aws account get-contact-information` : Gives contact information such as name, address, phone number etc of the user
+![cloud shell](https://user-images.githubusercontent.com/116954249/219423464-a209aaff-5173-4f41-9034-911b6a541fa4.png)
+
+
+
+
+# 6. AWS Billing alerts and Budgets (By Andrew and Chirag)
 - There are two ways to get notified for AWS Bills. They are **AWS Billing alerts** which is the old way and **AWS Budgets** which is the new way.
 - AWS Budgets is preferred over AWS Billing alerts because Budgets are Global and Billing alerts are regional. A Billing alert is just a cloudwatch alarm. You need to create for every AWS Region you work in.
 
@@ -37,8 +61,21 @@
 ### AWS Budget
 - I have been experimenting with EKS which explains the below cost. But I have AWS Credits so its fine.
 ![image](https://user-images.githubusercontent.com/116954249/219094834-fece7b2b-24e0-4917-bf94-81c7594608ed.png)
+### AWS Budget with AWS CLI (in gitpod)
+- `gp env AWS_ACCESS_KEY=""` : To store env variables permanently in gitpod workspace
+- `env | grep AWS_` : To search for env variables
+- `aws sts get-caller-identity`
 
-# 4. AWS Security (by Ashish Rajan)
+``` 
+{
+    "UserId": "AIDA5BCKCG47KLMD*****",
+    "Account": "895656015678",
+    "Arn": "arn:aws:iam::895656015678:user/kvs-aws-bootcamp"
+} 
+```
+- `aws sts get-caller-identity --query Account --output text` : gives us account_id
+
+# 7. AWS Security (by Ashish Rajan)
 #### AWS Organizations
 - It is a Hirerarchial structure.
 - This is a free resource
