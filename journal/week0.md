@@ -74,6 +74,15 @@
 } 
 ```
 - `aws sts get-caller-identity --query Account --output text` : gives us account_id
+#### Creating Budget using CLI
+- You need two files budgets.json and notifications-with-subscribers.json
+- First json file contains details about the actual budget and secind file containes the subscriber. Here, the subscriber is my email address
+```
+aws budgets create-budget \
+    --account-id $AWS_ACCOUNT_ID \
+    --budget file://aws/json/budgets.json \
+    --notifications-with-subscribers file://aws/json/notifications-with-subscribers.json
+```
 
 # 7. AWS Security (by Ashish Rajan)
 #### AWS Organizations
