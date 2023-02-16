@@ -19,7 +19,11 @@
 - Code Diagram is not relavent as of now. Will add it as we build on the application.
 
 # 2. Recreated Cruddur Conceptual Diagram and Logical Diagram
+- url: https://lucid.app/lucidchart/f0a4d501-b7ed-4be6-90d1-80382b1113bb/edit?invitationId=inv_75deb50a-5b1f-48fb-a344-cf8901d87c1b
+
 ![Cruddur - Conceptual Diagram](https://user-images.githubusercontent.com/116954249/219287974-390004c0-b02d-4896-ae22-80c6ece5e987.png)
+
+- url: https://lucid.app/lucidchart/ccf10edc-3fd9-4c1d-8397-b46c6651b7d1/edit?invitationId=inv_cd342678-0116-452f-b6a0-32b3555357f5
 
 ![Cruddur Logical Diagram](https://user-images.githubusercontent.com/116954249/219288040-0dd5ad86-43bc-4218-8639-3424cc04fc33.png)
 
