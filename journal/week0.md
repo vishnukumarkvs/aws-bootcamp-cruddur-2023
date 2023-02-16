@@ -1,7 +1,7 @@
 # Week 0 — Billing and Architecture
 
 # A. Instructional tasks
-## 1. C4 Model
+# 1. C4 Model
 
 - I have used C4 model for understanding System Architecture of Cruddur application.
 - C4 Model is a collection of 4 Core Diagrams which are Context, Container, Component and Code.
@@ -18,7 +18,12 @@
 
 - Code Diagram is not relavent as of now. Will add it as we build on the application.
 
-## 2. AWS Billing alerts and Budgets
+# 2. Recreated Cruddur Conceptual Diagram and Logical Diagram
+![Cruddur - Conceptual Diagram](https://user-images.githubusercontent.com/116954249/219287974-390004c0-b02d-4896-ae22-80c6ece5e987.png)
+
+![Cruddur Logical Diagram](https://user-images.githubusercontent.com/116954249/219288040-0dd5ad86-43bc-4218-8639-3424cc04fc33.png)
+
+# 3. AWS Billing alerts and Budgets
 - There are two ways to get notified for AWS Bills. They are **AWS Billing alerts** which is the old way and **AWS Budgets** which is the new way.
 - AWS Budgets is preferred over AWS Billing alerts because Budgets are Global and Billing alerts are regional. A Billing alert is just a cloudwatch alarm. You need to create for every AWS Region you work in.
 
@@ -29,7 +34,7 @@
 - I have been experimenting with EKS which explains the below cost. But I have AWS Credits so its fine.
 ![image](https://user-images.githubusercontent.com/116954249/219094834-fece7b2b-24e0-4917-bf94-81c7594608ed.png)
 
-## 3. AWS Security (by Ashish Rajan)
+# 4. AWS Security (by Ashish Rajan)
 #### AWS Organizations
 - It is a Hirerarchial structure.
 - This is a free resource
