@@ -28,6 +28,9 @@
 
 ![Cruddur Logical Diagram](https://user-images.githubusercontent.com/116954249/219288040-0dd5ad86-43bc-4218-8639-3424cc04fc33.png)
 
+- I have created an Architecture Diagram for my own project
+ - Reference: https://github.com/vishnukumarkvs/splashit/blob/main/README.md 
+
 # 3. Added MFA
 - Used third-party app on mobile for MFA
 
@@ -85,13 +88,13 @@ aws budgets create-budget \
 ```
 
 # 7. AWS Security (by Ashish Rajan)
-#### AWS Organizations
+### AWS Organizations
 - It is a Hirerarchial structure.
 - This is a free resource
 - Used extensively by Enterprises
 ![image](https://user-images.githubusercontent.com/116954249/219119306-deb59e38-7b9b-40d5-b6ab-de5317d50ec5.png)
 
-#### CloudTrail
+### CloudTrail
 - It is an auditing service which audits all AWS events in your account
 - By default, it audits only in your current region. Enable all regions while creating cloudtrail.
 - 3 Types of Events : Management events, Data events, Insight events
@@ -102,5 +105,19 @@ aws budgets create-budget \
 - Data and insight events have additional cost
 ![image](https://user-images.githubusercontent.com/116954249/219125834-419a938c-80b7-4e3a-8e4e-a48b2e148f15.png)
 
+### IAM Users vs IAM Roles vs IAM Policies
+- IAM User
+  - IAM user is a particular person or an application that can access AWS Resources in your account.
+  - IAM user have security credentials like access_key and secret_access_key
+- IAM Role
+  - IAM role is an identity which can be assumed by IAM Users and AWS Services
+  - By assuming an iam role, the particular user or service gets all permissions attached to the role
+  - Example: EKS service needs EC2 for the worker nodes. So, it needs an IAM role to access EC2 services
+- IAM Policy
+  - It is a document (written in json) that specifies what actions are allowed or denied, which resources are affected, and who is allowed to perform those actions.
+  - These policies can be attached to users, groups and roles
 
-
+### Service Control Policies
+- Definition: Service control policies (SCPs) enable central administration over the permissions available within the accounts in your organization. This helps ensure that your accounts stay within your organization’s access control guidelines.
+![scp](https://user-images.githubusercontent.com/116954249/219855004-792fe961-d288-4133-b256-9c32d557e95d.png)
+- Reference: https://github.com/hashishrajan/aws-scp-best-practice-policies
