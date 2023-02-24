@@ -127,6 +127,12 @@ dynamodb-local:
 - fargate
 - AWS CoPilot
 
+# Spending Considerations (by Chirag)
+- **Gitpod**: 500 credits -> 50 hours free per month
+- **Github Codespaces**:  60 hours -> 2 cores :: 30 hours -> 4 cores
+- **Cloud9** : Free tier(if present) : t2.micro
+- Created a trail with AWS CloudTrail in week0 
+
 # Additional Tasks
 
 ### TruffleHog
