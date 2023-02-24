@@ -133,6 +133,26 @@ dynamodb-local:
 - **Cloud9** : Free tier(if present) : t2.micro
 - Created a trail with AWS CloudTrail in week0 
 
+<br>
+<br>
+
+# Homework Assignments
+## Run the application in local environment
+- Already had Docker installed in my laptop
+- Created docker-compose.local.yml file
+- Removed Gitpod specific urls and used localhost urls
+
+Docker containers running
+![local_docker](https://user-images.githubusercontent.com/116954249/221280379-66088c6f-e56c-4de7-9c81-ecbfaf47af90.png)
+
+Frontend and backend running locally
+<table>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/116954249/221280484-b81f7897-5b82-4bf5-bf36-3cda5c1726c9.png" alt="Notifications Backend"></td>
+    <td><img src="https://user-images.githubusercontent.com/116954249/221280579-1e517a97-1bd8-4a0f-a61b-473419271e42.png" alt="Notifications Frontend"></td>
+  </tr>
+</table>
+
 # Additional Tasks
 
 ### TruffleHog
