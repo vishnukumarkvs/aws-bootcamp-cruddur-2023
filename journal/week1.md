@@ -7,9 +7,11 @@
 - Core concepts of Docker are Docker Container and Docker Image.
 - A docker image contains your application code with all its dependencies
 - A docker container is instance of docker image. You can run your application by running the container .You can create, start, stop, move, or delete a container using the Docker API or CLI.
+<br>
+
 
 ## Cruudur up and running
-- I have followed the week1 stream and was able to create Dockerfiles for Frontend and Backend
+- Followed the week1 stream and was able to create Dockerfiles for Frontend and Backend
 ### Backend
 - Created docker image from Dockerfile.
 
@@ -29,10 +31,12 @@
 - WebPage
 
 ![compose up 2](https://user-images.githubusercontent.com/116954249/220103672-b9d2205f-8c54-4673-9dc4-f5547d35cb70.png)
+<br>
+<br>
 
-### Adding Notifications
+## Adding Notifications
 - Added Notifications API in flask backend. Endpoint */api/activities/notifications*
-- Implemented notifications page
+- Implemented notifications page in react frontend
 
 <table>
   <tr>
@@ -40,16 +44,88 @@
     <td><img src="https://user-images.githubusercontent.com/116954249/221242084-a01ed4b1-96eb-4763-94a0-41604b98dd5e.png" alt="Notifications Frontend"></td>
   </tr>
 </table>
+<br>
+<br>
 
-### DynamoDB local and Postgres
+
+## DynamoDB local
 - DynamoDB local is a downloadable version of Amazon DynamoDB where we can develop and test applications without accessing the DynamoDB web service. Instead, the database is self-contained on your computer. 
 - When we are ready, we can simply remove the local endpoint and point it to DynamoDB service
+- Created a dynamodb local service inside *docker-compose.yml* file.
+<br>
+
+
+```
+dynamodb-local:
+    # https://stackoverflow.com/questions/67533058/persist-local-dynamodb-data-in-volumes-lack-permission-unable-to-open-databa
+    # We needed to add user:root to get this working.
+    user: root
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./docker/dynamodb:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+```
+<br>
+
+- Docker image used here is **amazon/dynamodb-local:latest**
+- command: `-jar DynamoDBLocal.jar -sharedDb -dbPath ./data`: This sets the command to run in the container, which launches the DynamoDB Local server with shared database mode and specifies the location of the database files.
 
 ![dynamodblocal done](https://user-images.githubusercontent.com/116954249/221244286-8314227f-6969-4aca-baf5-43f414fa38da.png)
 
+## Postgres
+- Created a postgres service in docker-compose file
+- Installed postgres client
+- Installed postgres plugin in vscode which is a Database viewer
+
+![postgres done](https://user-images.githubusercontent.com/116954249/221256007-e87d331b-a9df-449a-82d0-919c9e8648f1.png)
+
 
 # Cloud Security(By Ashish Rajan)
-- Done with Snyk
+
+### Container security componenets
+- Docker and Host Configuration
+- Securing Images
+- Secret Management
+- Application Security
+- Data Security
+- Monitoring Containers
+- Compliance Framework
+
+### Security Best Practices
+- Keep host and docker updated to latest security patches
+- Docker daemon and containers should run in non-root user mode
+- Image vulnerability scanning
+- Trusting a Private registry vs Public registry
+- No senditive data in Dockerfiles or images
+- Use secret management service
+- Read only file system and Volume for Docker
+- Seperate database for long-term storage
+- Use Devsecops practices
+- Ensure all code is tested for vulnerabbilities before production use
+
+### Snyk - Free software
+- scans code repo for vulnerability. Mostly docker related
+
+### Secrets Manager
+- AWS Secrets Manager : for aws services - paid(no free tier)
+- Hashicorp vault : Free=run your own server and manage, Paid=Server managed by them
+
+### Image vulnerability scanning
+- Amazon Inspector - Integration with ECR, EC2, AMI, Lambda - 15 day trail
+- Clair
+- Snyk
+  - snyk auth, snyk container test redis:alpine
+
+### Running containers in AWS
+- ECS
+- EKS
+- App runner
+- fargate
+- AWS CoPilot
 
 # Additional Tasks
 
