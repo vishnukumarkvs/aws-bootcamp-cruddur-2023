@@ -30,6 +30,24 @@
 
 ![compose up 2](https://user-images.githubusercontent.com/116954249/220103672-b9d2205f-8c54-4673-9dc4-f5547d35cb70.png)
 
+### Adding Notifications
+- Added Notifications API in flask backend. Endpoint */api/activities/notifications*
+- Implemented notifications page
+
+<table>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/116954249/221242035-ebef00ad-834d-4964-a016-dd0eaefa17e5.png" alt="Notifications Backend"></td>
+    <td><img src="https://user-images.githubusercontent.com/116954249/221242084-a01ed4b1-96eb-4763-94a0-41604b98dd5e.png" alt="Notifications Frontend"></td>
+  </tr>
+</table>
+
+### DynamoDB local and Postgres
+- DynamoDB local is a downloadable version of Amazon DynamoDB where we can develop and test applications without accessing the DynamoDB web service. Instead, the database is self-contained on your computer. 
+- When we are ready, we can simply remove the local endpoint and point it to DynamoDB service
+
+![dynamodblocal done](https://user-images.githubusercontent.com/116954249/221244286-8314227f-6969-4aca-baf5-43f414fa38da.png)
+
+
 # Cloud Security(By Ashish Rajan)
 - Done with Snyk
 
