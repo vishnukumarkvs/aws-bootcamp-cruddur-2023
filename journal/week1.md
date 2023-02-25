@@ -184,7 +184,8 @@ docker pull vishnukumarkvs/cruddur-frontend:v1
 - So, I used default ECR public registry pf my account and pushed my two docker images into it. I just followed the push commands provided by ECR
 - Then I created two services in app runner. 
 - First I created backend service. Got the url.
-- Then created frontend service. Passed backend url as Environment variable
+- Then created frontend service. Passed backend url as Environment variable.
+- Backend service normally takes two env vars: FRONTEND_URL and BACKEND_URL. These vars are used in CORS insdie the app.py. As the backend service is the first service we deploy, we dont get the urls before. So, i have disabled CORS in backend for this demo.
 
 Both ECR and App Runner dont have any free tier. Well ECR has but might not useful.
 
