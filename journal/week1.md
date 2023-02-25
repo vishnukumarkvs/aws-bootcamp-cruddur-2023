@@ -158,6 +158,28 @@ Frontend and backend running locally
   </tr>
 </table>
 
+## Pushed Images to Dockerhub
+- I have built docker images for frontend and backend and pushed it to Dockerhub.
+```
+docker build -t cruddur-backend:v1 .
+docker build -t cruddur-frontend:v1 .
+
+docker tag cruddur-frontend:v1 vishnukumarkvs/cruddur-frontend:v1
+docker push vishnukumarkvs/cruddur-frontend:v1
+
+docker tag cruddur-backend:v1 vishnukumarkvs/cruddur-backend:v1
+docker push vishnukumarkvs/cruddur-backend:v1
+```
+- To pull images
+```
+docker pull vishnukumarkvs/cruddur-backend:v1
+docker pull vishnukumarkvs/cruddur-frontend:v1
+```
+
+![dockerhub](https://user-images.githubusercontent.com/116954249/221358749-5dbe6651-1734-49d0-aad0-6a9c329c7755.png)
+
+
+
 # Additional Tasks
 
 ### TruffleHog
