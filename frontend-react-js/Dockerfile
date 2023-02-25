@@ -4,4 +4,5 @@ COPY package.json ./
 COPY package-lock.json ./
 COPY ./ ./
 RUN npm i
+RUN apk add --no-cache curl
 CMD ["npm" , "start"]

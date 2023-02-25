@@ -10,6 +10,9 @@ COPY requirements.txt requirements.txt
 # Install all python libraries
 RUN pip3 install -r requirements.txt
 
+#Install curl
+RUN apt-get update && apt-get install -y curl
+
 # Copy all contents from current directory to workdir
 COPY . .
 
