@@ -127,11 +127,93 @@ dynamodb-local:
 - fargate
 - AWS CoPilot
 
+### Snyk implementation
+- I have tried snyk for one of my other demo projects
+![splashit_snyk](https://user-images.githubusercontent.com/116954249/221358423-7f1e9ad3-1918-4e21-a19c-bb0cab02637a.png)
+
+
 # Spending Considerations (by Chirag)
 - **Gitpod**: 500 credits -> 50 hours free per month
 - **Github Codespaces**:  60 hours -> 2 cores :: 30 hours -> 4 cores
 - **Cloud9** : Free tier(if present) : t2.micro
 - Created a trail with AWS CloudTrail in week0 
+
+<br>
+<br>
+
+# Homework Assignments
+## Run the application in local environment
+- Already had Docker installed in my laptop
+- Created docker-compose.local.yml file
+- Removed Gitpod specific urls and used localhost urls
+
+Docker containers running
+![local_docker](https://user-images.githubusercontent.com/116954249/221280379-66088c6f-e56c-4de7-9c81-ecbfaf47af90.png)
+
+Frontend and backend running locally
+<table>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/116954249/221280484-b81f7897-5b82-4bf5-bf36-3cda5c1726c9.png" alt="Notifications Backend"></td>
+    <td><img src="https://user-images.githubusercontent.com/116954249/221280579-1e517a97-1bd8-4a0f-a61b-473419271e42.png" alt="Notifications Frontend"></td>
+  </tr>
+</table>
+
+## Pushed Images to Dockerhub
+- I have built docker images for frontend and backend and pushed it to Dockerhub.
+```
+docker build -t cruddur-backend:v1 .
+docker build -t cruddur-frontend:v1 .
+
+docker tag cruddur-frontend:v1 vishnukumarkvs/cruddur-frontend:v1
+docker push vishnukumarkvs/cruddur-frontend:v1
+
+docker tag cruddur-backend:v1 vishnukumarkvs/cruddur-backend:v1
+docker push vishnukumarkvs/cruddur-backend:v1
+```
+- To pull images
+```
+docker pull vishnukumarkvs/cruddur-backend:v1
+docker pull vishnukumarkvs/cruddur-frontend:v1
+```
+
+![dockerhub](https://user-images.githubusercontent.com/116954249/221358749-5dbe6651-1734-49d0-aad0-6a9c329c7755.png)
+
+## ECR and AWS App Runner
+- AWS App Runner is a fully managed service provided by Amazon Web Services (AWS) that allows you to quickly and easily deploy containerized applications without having to worry about the underlying infrastructure.
+- Right now, App Runner supports only ECR.
+- So, I used default ECR public registry pf my account and pushed my two docker images into it. I just followed the push commands provided by ECR
+- Then I created two services in app runner. 
+- First I created backend service. Got the url.
+- Then created frontend service. Passed backend url as Environment variable.
+- Backend service normally takes two env vars: FRONTEND_URL and BACKEND_URL. These vars are used in CORS insdie the app.py. As the backend service is the first service we deploy, we dont get the urls before. So, i have disabled CORS in backend for this demo.
+
+Both ECR and App Runner dont have any free tier. Well ECR has but might not useful.
+
+App Runner pricing basic:-
+- $0.064 / vCPU-hour*
+- $0.007 / GB-hour*
+
+ECR:-
+- $0.10 per month per GB
+
+**I have Deleted all resources after able to run the application as it will incur costs. I have provided snapshots below.**
+
+ECR Repos
+
+![ECR repos](https://user-images.githubusercontent.com/116954249/221359304-f0fe1076-3833-4f6f-b9d6-a3394df282ba.png)
+
+App Runner Services
+
+![app runner services](https://user-images.githubusercontent.com/116954249/221359530-c7baaeeb-d48f-41ac-8fa4-3517391ed1a4.png)
+
+App Runner frontend and Backend
+
+<table>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/116954249/221359579-24000ef9-d6a9-4c85-aa4c-5e76a10620e5.png" alt="Notifications Backend"></td>
+    <td><img src="https://user-images.githubusercontent.com/116954249/221359582-90397615-c36c-45a4-b50d-f0c3ea588c3e.png" alt="Notifications Frontend"></td>
+  </tr>
+</table>
 
 # Additional Tasks
 
