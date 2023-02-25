@@ -158,6 +158,30 @@ Frontend and backend running locally
   </tr>
 </table>
 
+## Added Healthchecks
+- I have added healthchecks in docker-compose.local.yml file
+- ref: https://github.com/vishnukumarkvs/aws-bootcamp-cruddur-2023/blob/main/docker-compose.local.yml
+- Curl commands for healthcheck
+
+```
+curl --fail http://localhost:4567/api/activities/home || exit 1
+curl --fail http://localhost:3000 || exit 1
+```
+
+- For healthcheck, I have used available endpoints as given above.
+- We need curl inside docker to work. So I have added RUN instruction in Dockerfile
+
+```
+Frontend Dockerfile
+RUN apk add --no-cache curl
+
+Backend Dockerfile
+RUN apt-get update && apt-get install -y curl
+```
+
+![health-check-local](https://user-images.githubusercontent.com/116954249/221364909-fa5ef843-2529-490c-b3cf-ac9b53e78315.png)
+
+
 ## Pushed Images to Dockerhub
 - I have built docker images for frontend and backend and pushed it to Dockerhub.
 ```
