@@ -181,9 +181,9 @@ docker pull vishnukumarkvs/cruddur-frontend:v1
 ## ECR and AWS App Runner
 - AWS App Runner is a fully managed service provided by Amazon Web Services (AWS) that allows you to quickly and easily deploy containerized applications without having to worry about the underlying infrastructure.
 - Right now, App Runner supports only ECR.
-- So, I have created a ECR public registry and pushed my two images into it. I just followed the push commands provided by ECR
+- So, I used default ECR public registry pf my account and pushed my two docker images into it. I just followed the push commands provided by ECR
 - Then I created two services in app runner. 
-- First I created backend service. Got the url
+- First I created backend service. Got the url.
 - Then created frontend service. Passed backend url as Environment variable
 
 Both ECR and App Runner dont have any free tier. Well ECR has but might not useful.
