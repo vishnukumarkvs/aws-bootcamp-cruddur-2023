@@ -127,6 +127,11 @@ dynamodb-local:
 - fargate
 - AWS CoPilot
 
+### Snyk implementation
+- I have tried snyk for one of my other demo projects
+![splashit_snyk](https://user-images.githubusercontent.com/116954249/221358423-7f1e9ad3-1918-4e21-a19c-bb0cab02637a.png)
+
+
 # Spending Considerations (by Chirag)
 - **Gitpod**: 500 credits -> 50 hours free per month
 - **Github Codespaces**:  60 hours -> 2 cores :: 30 hours -> 4 cores
