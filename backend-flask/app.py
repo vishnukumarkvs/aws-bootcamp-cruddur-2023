@@ -17,6 +17,9 @@ from services.notifications_activities import *
 
 # AWS X-RAY--------------
 from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.core import patch_all
+patch_all()
+
 from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
 
 xray_url = os.getenv("AWS_XRAY_URL")
@@ -96,12 +99,12 @@ def data_create_message():
 
 @app.route("/api/activities/home", methods=['GET'])
 def data_home():
-  data = HomeActivities.run()
+  data = HomeActivities.run() 
   return data, 200
 
 @app.route("/api/activities/notifications", methods=['GET'])
 def data_notifications():
-  data = NotificationsActivities.run()
+  data = NotificationsActivities(xray_recorder).run()
   return data, 200
 
 @app.route("/api/activities/@<string:handle>", methods=['GET'])
