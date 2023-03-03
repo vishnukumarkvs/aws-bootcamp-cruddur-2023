@@ -15,15 +15,15 @@ from services.show_activity import *
 from services.notifications_activities import *
 
 
-# AWS X-RAY--------------
-from aws_xray_sdk.core import xray_recorder
-from aws_xray_sdk.core import patch_all
-patch_all()
+# # AWS X-RAY--------------
+# from aws_xray_sdk.core import xray_recorder
+# from aws_xray_sdk.core import patch_all
+# patch_all()
 
-from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+# from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
 
-xray_url = os.getenv("AWS_XRAY_URL")
-xray_recorder.configure(service='backend-flask',dynamic_naming=xray_url)
+# xray_url = os.getenv("AWS_XRAY_URL")
+# xray_recorder.configure(service='backend-flask',dynamic_naming=xray_url)
 
 # Cloudwatch logs-----------
 import watchtower
@@ -55,6 +55,15 @@ provider.add_span_processor(processor)
 trace.set_tracer_provider(provider)
 tracer = trace.get_tracer(__name__)
 
+# AWS X-RAY--------------
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.core import patch_all
+patch_all()
+
+from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+
+xray_url = os.getenv("AWS_XRAY_URL")
+xray_recorder.configure(service='backend-flask',dynamic_naming=xray_url)
 
 app = Flask(__name__)
 
