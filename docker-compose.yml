@@ -30,8 +30,8 @@ services:
     build: ./frontend-react-js
     ports:
       - "3000:3000"
-    # volumes:
-    #   - ./frontend-react-js:/app
+    volumes:
+      - ./frontend-react-js:/app
   xray-daemon:
     image: "amazon/aws-xray-daemon"
     environment:
