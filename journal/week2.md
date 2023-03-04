@@ -1,17 +1,28 @@
 # Week 2 — Distributed Tracing
 
-# Basics
-## Observability
+1. [Basics](#basics)
+2. [Difficulties faced](#difficulties-faced)
+
+[Work](#work)
+1. [Honeycomb](#honeycomb)
+2. [AWS XRay](#aws-xray)
+3. [AWS XRay Traces and Segments](#aws-xray-traces-and-segments)
+4. [Cloudwatch](#cloudwatch)
+5. [Rollbar](#rollbar)
+
+## Basics
+### Observability
 - Observability provides deep visibility into modern distributed applications for faster, automated problem identification and resolution.
 - In observability, a span and a tracer are both important concepts in distributed tracing, but they have different roles.
 - A span is a unit of work or activity within a system that is being traced or monitored. It represents a single operation or event that occurs as part of a distributed system transaction, such as a database query, a network request, or a function call. Each span contains information about the start and end time of the activity, as well as metadata about the activity.
 - A tracer, on the other hand, is an object that is responsible for managing and coordinating the collection of spans. A tracer is typically instantiated at the beginning of a transaction and is used to create and manage spans as the transaction progresses.
 
-## Open Telemetry (OTEL)
+### Open Telemetry (OTEL)
 - OpenTelemetry is a set of tools, APIs, and SDKs that are used to collect, manage, and export observability data (metrics, traces, and logs) from cloud-native software applications. It is open-source managed by CNCF
 - Honeycomb, AWS Xray uses OpenTelemetry in its backend.
 
-### M.E.L.T - application emits signals called MELT
+### M.E.L.T
+- Application emits signals called MELT
 - Metrics
   - These are measurements collected at regular intervals must have a timestamp and name, one or more numeric values
 
@@ -38,10 +49,8 @@
 - aws_xray_sdk = SDK used fotr instrumention python application
 - It has segments, subsegments
 
-# Hard Assignments
-- Completed all tasks
 
-## Difficulties faced
+# Difficulties faced
 - AWS Xray creating segments and subsegments. Able to make it work by passing xray_recorder as object(Idea: Olleys article). But still getting SegmentationNotFound in some cases.
 - CloudWatch and AWS Xray not working together. If we initialise Xray before Cloudwatch, the workaround above doesnt work anymore
 - If xray initialised after cloudwatch, xray is overriding the logging functionality of cloudwatch
@@ -86,4 +95,16 @@
 - Metadata for segment
 
 ![notificationmetadata](https://user-images.githubusercontent.com/116954249/222917342-4c8e3043-f8e8-475e-8009-3ffee2662fa4.png)
+
+### Cloudwatch
+- Configured Clouwatch logger in app
+- Disabled Xray with `AWS_XRAY_SDK_ENABLED: "False"`. Xray and Cloudwatch not working simultaneiusly
+- Traces
+
+![cloudwatch-traces](https://user-images.githubusercontent.com/116954249/222917619-3452a0c7-b1aa-4d5b-af6f-a500c20f0926.png)
+
+### Rollbar
+- Configured Rollbar
+
+![rollbar1](https://user-images.githubusercontent.com/116954249/222917641-52223d7d-5213-49de-9789-de31ec5c9dc7.png)
 
