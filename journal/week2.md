@@ -52,3 +52,38 @@
 - https://pypi.org/project/watchtower/
 - https://olley.hashnode.dev/aws-free-cloud-bootcamp-instrumenting-aws-x-ray-subsegments
 
+# Work
+### Honeycomb
+- Created Trace and Span, also added custom attributes to span
+![custom attributes](https://user-images.githubusercontent.com/116954249/222916857-c2308c62-bf9f-431e-add2-dfe6c0d9acef.png)
+
+- Overall Chart and heatmap
+<table>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/116954249/222916952-9d239c21-0a56-4c4c-94a8-6b0ead8f06f7.png" alt="Overall Chart"></td>
+    <td><img src="https://user-images.githubusercontent.com/116954249/222916962-73f628c0-fbd9-4d53-bf18-11e25c5998dd.png" alt="Heatmap"></td>
+  </tr>
+</table>
+
+### AWS XRay
+- Created Sampling Rule and Xray Group
+<table>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/116954249/222917076-c41f17c7-49e9-4f08-bea4-4b004a3b3320.png" alt="Sampling Rule"></td>
+    <td><img src="https://user-images.githubusercontent.com/116954249/222917089-358e8f85-7b8b-4924-8122-c7042361f8aa.png" alt="XRay Group"></td>
+  </tr>
+</table>
+ 
+- Xray logs 
+
+![xray-logs](https://user-images.githubusercontent.com/116954249/222917177-e2863f55-cd45-4162-bcb2-42f01b6a7f87.png)
+
+### AWS XRay Traces and Segments
+- For Notification Activities Service - Segemnt timeline
+
+![tracenotification](https://user-images.githubusercontent.com/116954249/222917349-66619203-9cba-4eb2-ac09-580379847d87.png)
+
+- Metadata for segment
+
+![notificationmetadata](https://user-images.githubusercontent.com/116954249/222917342-4c8e3043-f8e8-475e-8009-3ffee2662fa4.png)
+
