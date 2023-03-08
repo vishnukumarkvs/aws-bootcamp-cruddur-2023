@@ -48,8 +48,8 @@ const checkAuth = async () => {
     return Auth.currentAuthenticatedUser()
   }).then((cognito_user) => {
       setUser({
-        display_name: cognito_user.attributes.name,
-        handle: cognito_user.attributes.preferred_username
+        display_name: cognito_user.username,
+        handle: cognito_user.username
       })
   })
   .catch((err) => console.log(err));
