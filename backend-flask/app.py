@@ -1,9 +1,8 @@
-from flask import Flask
-from flask import request
+from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 import os
-from flask import request
-
+import jwt
+import requests
 
 from services.home_activities import *
 from services.user_activities import *
@@ -78,10 +77,41 @@ origins = [frontend, backend]
 cors = CORS(
   app, 
   resources={r"/api/*": {"origins": origins}},
-  headers=['Content-Type','Authorization'],
+  supports_credentials=True,
   expose_headers="Authorization",
   methods="OPTIONS,GET,HEAD,POST"
 )
+
+token_valid=False
+region = os.environ.get('AWS_DEFAULT_REGION')
+user_pool_id = os.environ.get('USER_POOL_ID')
+app_client_id = os.environ.get('APP_CLIENT_ID')
+
+@app.before_request
+def verify_jwt_token():
+  # unprotected_routes = ['/login', '/register']
+  # if request.path in unprotected_routes:
+  #     # Allow access to unprotected routes
+  #     return
+  auth_header=request.headers.get("Authorization")
+  if auth_header is None:
+    token_valid=False
+    return
+  token = request.headers.get('Authorization').split(' ')[1]
+  iss = f'https://cognito-idp.{region}.amazonaws.com/{user_pool_id}'
+  aud = app_client_id
+  jwks_url = f'https://cognito-idp.{region}.amazonaws.com/{user_pool_id}/.well-known/jwks.json'
+  jwks = requests.get(jwks_url).json()
+  key = next(iter(jwks['keys']))
+  public_key = RS256Algorithm.from_jwk(json.dumps(key))
+  try:
+      decoded_token = jwt.decode(token, public_key, audience=aud, issuer=iss)
+      token_valid = True
+      return
+  except jwt.exceptions.JWTError as e:
+      token_valid = False
+      return
+
 
 # Rollbar ----------
 rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
@@ -147,8 +177,14 @@ def data_home():
   app.logger.info(
     request.headers.get("Authorization")
   )
-  data = HomeActivities.run(logger=LOGGER) 
-  return data, 200
+  if token_valid:
+    app.logger.info('******Authenticated********')
+    data = HomeActivities.run(logger=LOGGER) 
+    return data, 200
+  else:
+    app.logger.info('******NOT Authenticated********')
+    data = HomeActivities.run(logger=LOGGER) 
+    return data, 200
 
 @app.route("/api/activities/notifications", methods=['GET'])
 def data_notifications():
