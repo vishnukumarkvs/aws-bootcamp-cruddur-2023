@@ -1,8 +1,14 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 import os
-import jwt
+import json
+import time
+import urllib.request
+from jose import jwk, jwt
+from jose.utils import base64url_decode
 import requests
+import json
+import sys
 
 from services.home_activities import *
 from services.user_activities import *
@@ -82,36 +88,75 @@ cors = CORS(
   methods="OPTIONS,GET,HEAD,POST"
 )
 
-token_valid=False
 region = os.environ.get('AWS_DEFAULT_REGION')
 user_pool_id = os.environ.get('USER_POOL_ID')
 app_client_id = os.environ.get('APP_CLIENT_ID')
 
 @app.before_request
 def verify_jwt_token():
-  # unprotected_routes = ['/login', '/register']
-  # if request.path in unprotected_routes:
-  #     # Allow access to unprotected routes
-  #     return
-  auth_header=request.headers.get("Authorization")
-  if auth_header is None:
-    token_valid=False
-    return
-  token = request.headers.get('Authorization').split(' ')[1]
-  iss = f'https://cognito-idp.{region}.amazonaws.com/{user_pool_id}'
-  aud = app_client_id
-  jwks_url = f'https://cognito-idp.{region}.amazonaws.com/{user_pool_id}/.well-known/jwks.json'
-  jwks = requests.get(jwks_url).json()
-  key = next(iter(jwks['keys']))
-  public_key = RS256Algorithm.from_jwk(json.dumps(key))
-  try:
-      decoded_token = jwt.decode(token, public_key, audience=aud, issuer=iss)
-      token_valid = True
+    global token_valid
+    auth_header = request.headers.get("Authorization")
+    app.logger.debug(auth_header)
+    if auth_header is None or auth_header == 'Bearer null':
+      # Authorization header is missing
+      app.logger.debug("No header")
+      token_valid=False
       return
-  except jwt.exceptions.JWTError as e:
-      token_valid = False
-      return
+    else:
+      app.logger.debug('enetered')
+      token = auth_header.split(' ')[1]
+      iss = f'https://cognito-idp.{region}.amazonaws.com/{user_pool_id}'
+      aud = app_client_id
 
+      # Retrieve the JSON Web Key Set (JWKS) from the Cognito User Pool
+      keys_url = f'https://cognito-idp.{region}.amazonaws.com/{user_pool_id}/.well-known/jwks.json'
+      with urllib.request.urlopen(keys_url) as f:
+        response = f.read()
+      keys = json.loads(response.decode('utf-8'))['keys']
+
+      headers = jwt.get_unverified_headers(token)
+      kid = headers['kid']
+      # search for the kid in the downloaded public keys
+      key_index = -1
+      for i in range(len(keys)):
+          if kid == keys[i]['kid']:
+              key_index = i
+              break
+      if key_index == -1:
+          print('Public key not found in jwks.json')
+          token_valid=False
+          return
+      # construct the public key
+      public_key = jwk.construct(keys[key_index])
+      # get the last two sections of the token,
+      # message and signature (encoded in base64)
+      message, encoded_signature = str(token).rsplit('.', 1)
+      
+      decoded_signature = base64url_decode(encoded_signature.encode('utf-8'))
+      # verify the signature
+      if not public_key.verify(message.encode("utf8"), decoded_signature):
+          app.logger.debug('Signature verification failed')
+          token_valid=False
+          return
+      token_valid=True
+      print('Signature successfully verified')
+      # since we passed the verification, we can now safely
+      # use the unverified claims
+      claims = jwt.get_unverified_claims(token)
+      app.logger.debug(claims)
+      # additionally we can verify the token expiration
+      if time.time() > claims['exp']:
+          token_valid=False
+          app.logger.debug('Token is expired')
+          return
+      # and the Audience  (use claims['client_id'] if verifying an access token)
+      if claims['client_id'] != app_client_id:
+          token_valid=False
+          app.logger.debug('Token was not issued for this audience')
+          return
+      # now we can use the claims
+      app.logger.debug(claims)
+    return
 
 # Rollbar ----------
 rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
@@ -173,10 +218,11 @@ def data_create_message():
 
 @app.route("/api/activities/home", methods=['GET'])
 def data_home():
-  app.logger.info("AUTH HEADER")
-  app.logger.info(
-    request.headers.get("Authorization")
-  )
+  # app.logger.info("AUTH HEADER")
+  # app.logger.info(
+  #   request.headers.get("Authorization")
+  # )
+  app.logger.debug(token_valid)
   if token_valid:
     app.logger.info('******Authenticated********')
     data = HomeActivities.run(logger=LOGGER) 
