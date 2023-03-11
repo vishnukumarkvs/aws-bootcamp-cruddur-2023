@@ -30,13 +30,13 @@ services:
       REACT_APP_AWS_PROJECT_REGION: "${AWS_DEFAULT_REGION}"
       REACT_APP_AWS_COGNITO_REGION: "${AWS_DEFAULT_REGION}"
       REACT_APP_AWS_USER_POOLS_ID: "us-east-1_GXuDhauuC"
-      REACT_APP_CLIENT_ID: "aeq6go04064iatnd5laeoembc"
-      GOOGLE_CLIENT_ID: "1032693418393-1o23v8ar87v69setpcmhgbpns5c7m3f3.apps.googleusercontent.com"
+      REACT_APP_COGNITO_CLIENT_ID: "aeq6go04064iatnd5laeoembc"
+      REACT_APP_GOOGLE_CLIENT_ID: "1032693418393-1o23v8ar87v69setpcmhgbpns5c7m3f3.apps.googleusercontent.com"
     build: ./frontend-react-js
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend-react-js:/app
+    # volumes:
+    #   - ./frontend-react-js:/frontend-react-js
   xray-daemon:
     image: "amazon/aws-xray-daemon"
     environment:

@@ -22,14 +22,21 @@ Amplify.configure({
   "AWS_PROJECT_REGION": process.env.REACT_APP_AWS_PROJECT_REGION,
   "aws_cognito_region": process.env.REACT_APP_AWS_COGNITO_REGION,
   "aws_user_pools_id": process.env.REACT_APP_AWS_USER_POOLS_ID,
-  "aws_user_pools_web_client_id": process.env.REACT_APP_CLIENT_ID,
-  "oauth": {},
+  "aws_user_pools_web_client_id": process.env.REACT_APP_COGNITO_CLIENT_ID,
+  "oauth": {
+    google_client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+    domain: 'cruddur-kvs.auth.us-east-1.amazoncognito.com',
+    scope: ['email', 'openid', 'profile'],
+    redirectSignIn: 'https://3000-vishnukumar-awsbootcamp-fsup05j2sy1.ws-us90.gitpod.io/',
+    redirectSignOut: 'https://3000-vishnukumar-awsbootcamp-fsup05j2sy1.ws-us90.gitpod.io/',
+    responseType: 'code',
+  },
   Auth: {
     // We are not using an Identity Pool
     // identityPoolId: process.env.REACT_APP_IDENTITY_POOL_ID, // REQUIRED - Amazon Cognito Identity Pool ID
     region: process.env.REACT_APP_AWS_PROJECT_REGION,           // REQUIRED - Amazon Cognito Region
     userPoolId: process.env.REACT_APP_AWS_USER_POOLS_ID,         // OPTIONAL - Amazon Cognito User Pool ID
-    userPoolWebClientId: process.env.REACT_APP_CLIENT_ID,   // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
+    userPoolWebClientId: process.env.REACT_APP_COGNITO_CLIENT_ID,   // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
   }
 });
 
