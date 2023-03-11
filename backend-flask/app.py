@@ -79,10 +79,11 @@ RequestsInstrumentor().instrument()
 
 frontend = os.getenv('FRONTEND_URL')
 backend = os.getenv('BACKEND_URL')
-origins = [frontend, backend]
+client_id = os.getenv('GOOGLE_CLIENT_ID')
+origins = [frontend, backend,client_id]
 cors = CORS(
   app, 
-  resources={r"/api/*": {"origins": origins}},
+  resources={r"/api/*": {"origins": "*"}},
   supports_credentials=True,
   expose_headers="Authorization",
   methods="OPTIONS,GET,HEAD,POST"

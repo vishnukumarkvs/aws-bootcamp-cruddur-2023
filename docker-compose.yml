@@ -15,8 +15,10 @@ services:
       AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
       AWS_XRAY_SDK_ENABLED: "False"
       ROLLBAR_ACCESS_TOKEN: "${ROLLBAR_ACCESS_TOKEN}"
-      USER_POOL_ID: "us-east-1_UQhlyrsU1"
-      APP_CLIENT_ID: "2dtdirjovcb33n5r165p6oh8gc"
+      USER_POOL_ID: "us-east-1_GXuDhauuC"
+      APP_CLIENT_ID: "aeq6go04064iatnd5laeoembc"
+      GOOGLE_CLIENT_ID: "1032693418393-1o23v8ar87v69setpcmhgbpns5c7m3f3.apps.googleusercontent.com"
+
     build: ./backend-flask
     ports:
       - "4567:4567"
@@ -27,13 +29,14 @@ services:
       REACT_APP_BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
       REACT_APP_AWS_PROJECT_REGION: "${AWS_DEFAULT_REGION}"
       REACT_APP_AWS_COGNITO_REGION: "${AWS_DEFAULT_REGION}"
-      REACT_APP_AWS_USER_POOLS_ID: "us-east-1_UQhlyrsU1"
-      REACT_APP_CLIENT_ID: "2dtdirjovcb33n5r165p6oh8gc"
+      REACT_APP_AWS_USER_POOLS_ID: "us-east-1_GXuDhauuC"
+      REACT_APP_CLIENT_ID: "aeq6go04064iatnd5laeoembc"
+      GOOGLE_CLIENT_ID: "1032693418393-1o23v8ar87v69setpcmhgbpns5c7m3f3.apps.googleusercontent.com"
     build: ./frontend-react-js
     ports:
       - "3000:3000"
-    # volumes:
-    #   - ./frontend-react-js:/app
+    volumes:
+      - ./frontend-react-js:/app
   xray-daemon:
     image: "amazon/aws-xray-daemon"
     environment:
