@@ -38,5 +38,15 @@
 ![username and handle](https://user-images.githubusercontent.com/116954249/224547652-2d8850e3-d4a4-4925-8dd2-217f93572223.png)
 
 ## Verifying JWT in flask backend
+- Used `python-jose[cryptography]` pip pacakge for jwt verification
 - When user is authenticated, we get a jwt. We pass that jwt as a header called `Authorization`
 - Flask backend fetches this JWT fron the request header. Then it uses for verifying users so it can show protected and unprotected endpoints
+- Used variable `token_valid`. If token_valid is true, we can shouw certain page, if it isnt we can shouw another page. 
+- We make token_valid to true only if jwt is verified, else in all cases like token not found, expired etc, we set it to false
+- Two ways to verify jwt - using client secret or public key
+- Here, I am using public key. Amazon Cognito User Pools provide a JSON Web Key (JWK) set that includes the public keys used to verify the JWTs issued by the user pool.
+- Fetching the public key from Amazon Cognito User Pools using the JWKS URI does not cost anything.
+
+### Code
+- Written ` verify_jwt_token` function inside app.py file of backend
+- permalink: https://github.com/vishnukumarkvs/aws-bootcamp-cruddur-2023/blob/070d64f41f2beed43841c37a8d1484ec78549c58/backend-flask/app.py#L96
