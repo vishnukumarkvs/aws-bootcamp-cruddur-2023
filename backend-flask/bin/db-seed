@@ -1,10 +1,10 @@
 #! /usr/bin/bash
 
-echo "db-schema-load"
+echo "db-seed-load"
 
 # works in only backedn-flask directory - bug for now
-schema_path=$(realpath .)/db/schema.sql
-echo $schema_path
+seed_path=$(realpath .)/db/seed.sql
+echo $seed_path
 
 if [ "$1" = "prod" ]; then
   echo "Running in production mode"
@@ -13,4 +13,4 @@ else
   URL=$CONNECTION_URL
 fi
 
-psql $URL cruddur < $schema_path
+psql $URL cruddur < $seed_path
