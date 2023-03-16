@@ -1,0 +1,9 @@
+#! /usr/bin/bash
+
+echo "db-schema-load"
+
+# works in only backedn-flask directory - bug for now
+schema_path=$(realpath .)/db/schema.sql
+echo $schema_path
+
+psql $CONNECTION_URL cruddur < $schema_path
