@@ -29,11 +29,17 @@
 	],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "cd $THEIA_WORKSPACE_ROOT && curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg && echo \"deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main\" |sudo tee /etc/apt/sources.list.d/pgdg.list && sudo apt update && sudo apt install -y postgresql-client-13 libpq-dev"
+	"postCreateCommand": "cd $THEIA_WORKSPACE_ROOT && curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg && echo \"deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main\" |sudo tee /etc/apt/sources.list.d/pgdg.list && sudo apt update && sudo apt install -y postgresql-client-13 libpq-dev && echo 'export CODESPACE_IP=$(curl ifconfig.me)'",
 
 	// Configure tool-specific properties.
 	// "customizations": {},
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
+
+	"remoteEnv": {
+		"CONNECTION_URL": "postgresql://postgres:password@localhost:5432/cruddur",
+		"DB_SG_ID":"sg-00e2f320",
+        "DB_SG_RULE":"sgr-020898e2165918ca8"
+	 }
 }
