@@ -40,16 +40,50 @@ export default function HomeFeedPage() {
 
 // check if we are authenicated
 const checkAuth = async () => {
-  Auth.currentAuthenticatedUser({
-    // Optional, By default is false. 
-    // If set to true, this call will send a 
-    // request to Cognito to get the latest user data
+  // Auth.currentAuthenticatedUser({
+  //   // Optional, By default is false. 
+  //   // If set to true, this call will send a 
+  //   // request to Cognito to get the latest user data
+  //   bypassCache: false 
+  // })
+  // .then((user) => {
+  //   console.log('user',user);
+  //   return Auth.currentAuthenticatedUser()
+  // }).then((cognito_user) => {
+  //   console.log("he",cognito_user);
+  //   console.log("pe",cognito_user.attributes);
+  //     setUser({
+  //       display_name: cognito_user.attributes.name,
+  //       handle: cognito_user.attributes.preferred_username
+  //     })
+  // })
+  // .catch((err) => console.log(err));
+//   try {
+//     const user = await Auth.currentAuthenticatedUser({
+//       bypassCache: false
+//     });
+//     console.log('user', user);
+    
+//     const cognitoUser = await Auth.userAttributes(user);
+//     console.log('cognitoUser', cognitoUser);
+    
+//     setUser({
+//       display_name: cognitoUser.name,
+//       handle: cognitoUser.preferred_username
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+Auth.currentAuthenticatedUser({
     bypassCache: false 
   })
   .then((user) => {
     console.log('user',user);
     return Auth.currentAuthenticatedUser()
   }).then((cognito_user) => {
+    console.log("he",cognito_user);
+    console.log("pe",cognito_user.attributes);
+    console.log(cognito_user.getUserAttributes());
       setUser({
         display_name: cognito_user.attributes.name,
         handle: cognito_user.attributes.preferred_username
