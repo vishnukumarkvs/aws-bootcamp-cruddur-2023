@@ -26,7 +26,7 @@ Amplify.configure({
   "oauth": {
     domain: "cruddur-kvs.auth.us-east-1.amazoncognito.com",
     scope: ['email', 'openid', 'profile'],
-    redirectSignIn: "http://cruddur-kvs.auth.us-east-1.amazoncognito.com/ouath2/idpresponse",
+    redirectSignIn: `${window.location.origin}/`,
     redirectSignOut: "https://www.google.com",
     responseType: "code",
   },
