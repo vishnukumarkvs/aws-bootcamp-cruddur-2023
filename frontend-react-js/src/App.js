@@ -17,6 +17,7 @@ import {
 } from "react-router-dom";
 
 import {Amplify} from 'aws-amplify';
+import Callback from './pages/Callback';
 
 Amplify.configure({
   "AWS_PROJECT_REGION": process.env.REACT_APP_AWS_PROJECT_REGION,
@@ -26,9 +27,10 @@ Amplify.configure({
   "oauth": {
     domain: "cruddur-kvs.auth.us-east-1.amazoncognito.com",
     scope: ['email', 'openid', 'profile'],
-    redirectSignIn: `${window.location.origin}/`,
+    redirectSignIn: `${process.env.REACT_APP_FRONTEND_URL}/oauth2/idpresponse`,
     redirectSignOut: "https://www.google.com",
-    responseType: "code",
+    responseType: "token",
+    client_id: "1032693418393-1o23v8ar87v69setpcmhgbpns5c7m3f3.apps.googleusercontent.com"
   },
   Auth: {
     // We are not using an Identity Pool
@@ -79,6 +81,10 @@ const router = createBrowserRouter([
   {
     path: "/forgot",
     element: <RecoverPage />
+  },
+  {
+    path: "/oauth2/idpresponse",
+    element: <Callback/>
   }
 ]);
 
