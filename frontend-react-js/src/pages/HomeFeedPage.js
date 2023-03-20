@@ -58,38 +58,30 @@ const checkAuth = async () => {
   //     })
   // })
   // .catch((err) => console.log(err));
-//   try {
-//     const user = await Auth.currentAuthenticatedUser({
-//       bypassCache: false
-//     });
-//     console.log('user', user);
-    
-//     const cognitoUser = await Auth.userAttributes(user);
-//     console.log('cognitoUser', cognitoUser);
-    
-//     setUser({
-//       display_name: cognitoUser.name,
-//       handle: cognitoUser.preferred_username
-//     });
-//   } catch (err) {
-//     console.log(err);
-//   }
-Auth.currentAuthenticatedUser({
-    bypassCache: false 
-  })
-  .then((user) => {
-    console.log('user',user);
-    return Auth.currentAuthenticatedUser()
-  }).then((cognito_user) => {
-    console.log("he",cognito_user);
-    console.log("pe",cognito_user.attributes);
-    console.log(cognito_user.getUserAttributes());
+
+  // Get the currently authenticated user
+  Auth.currentUserInfo()
+    .then((cognitoUser) => {
+      // Get the user's attributes
+      console.log("user",cognitoUser);
+      const attributes = cognitoUser.attributes;
+  
+      // Log the attributes to the console
+      console.log(attributes);
+  
+      // Use the attributes to update your component state
       setUser({
-        display_name: cognito_user.attributes.name,
-        handle: cognito_user.attributes.preferred_username
-      })
-  })
-  .catch((err) => console.log(err));
+        display_name: attributes.name,
+        handle: attributes.preferred_username,
+        // Add other attributes as needed
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+    
+  
 };
 
   React.useEffect(()=>{
