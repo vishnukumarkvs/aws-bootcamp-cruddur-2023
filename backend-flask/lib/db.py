@@ -114,3 +114,21 @@ class Db:
     print ("pgcode:", err.pgcode, "\n")
 
 db = Db()
+
+
+# query_array_json(self, sql, params={})
+# This function takes an SQL query as input and returns an array of JSON objects. 
+# It uses the query_wrap_array() method to wrap the input query in a PostgreSQL query that converts the result to a JSON array.
+
+
+# query_object_json(self, sql, params={})
+# This function takes an SQL query as input and returns a single JSON object. It uses the query_wrap_object() method to wrap the input query in a PostgreSQL query that converts the result to a JSON object.
+
+
+# query_wrap_object(self, template)
+# This method takes an SQL query template as input and wraps it in a PostgreSQL query that converts the result to a JSON object.
+
+
+# query_wrap_array(self, template)
+# This method takes an SQL query template as input and wraps it in a PostgreSQL query that converts the result to a JSON array.
+
