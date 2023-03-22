@@ -40,45 +40,45 @@ export default function HomeFeedPage() {
 
 // check if we are authenicated
 const checkAuth = async () => {
-  // Auth.currentAuthenticatedUser({
-  //   // Optional, By default is false. 
-  //   // If set to true, this call will send a 
-  //   // request to Cognito to get the latest user data
-  //   bypassCache: false 
-  // })
-  // .then((user) => {
-  //   console.log('user',user);
-  //   return Auth.currentAuthenticatedUser()
-  // }).then((cognito_user) => {
-  //   console.log("he",cognito_user);
-  //   console.log("pe",cognito_user.attributes);
-  //     setUser({
-  //       display_name: cognito_user.attributes.name,
-  //       handle: cognito_user.attributes.preferred_username
-  //     })
-  // })
-  // .catch((err) => console.log(err));
+  Auth.currentAuthenticatedUser({
+    // Optional, By default is false. 
+    // If set to true, this call will send a 
+    // request to Cognito to get the latest user data
+    bypassCache: false 
+  })
+  .then((user) => {
+    console.log('user',user);
+    return Auth.currentAuthenticatedUser()
+  }).then((cognito_user) => {
+    console.log("p1",cognito_user);
+    console.log("p2",cognito_user.attributes);
+      setUser({
+        display_name: cognito_user.attributes.name,
+        handle: cognito_user.attributes.preferred_username
+      })
+  })
+  .catch((err) => console.log(err));
 
   // Get the currently authenticated user
-  Auth.currentUserInfo()
-    .then((cognitoUser) => {
-      // Get the user's attributes
-      console.log("user",cognitoUser);
-      const attributes = cognitoUser.attributes;
+  // Auth.currentUserInfo()
+  //   .then((cognitoUser) => {
+  //     // Get the user's attributes
+  //     console.log("user",cognitoUser);
+  //     const attributes = cognitoUser.attributes;
   
-      // Log the attributes to the console
-      console.log(attributes);
+  //     // Log the attributes to the console
+  //     console.log(attributes);
   
-      // Use the attributes to update your component state
-      setUser({
-        display_name: attributes.name,
-        handle: attributes.preferred_username,
-        // Add other attributes as needed
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  //     // Use the attributes to update your component state
+  //     setUser({
+  //       display_name: attributes.name,
+  //       handle: attributes.preferred_username,
+  //       // Add other attributes as needed
+  //     });
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
 
     
   
