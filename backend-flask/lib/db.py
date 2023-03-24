@@ -112,6 +112,16 @@ class Db:
     # print the pgcode and pgerror exceptions
     print ("pgerror:", err.pgerror)
     print ("pgcode:", err.pgcode, "\n")
+  
+  def query_value(self,sql,params={}):
+    self.print_sql('query',sql)
+
+    with self.pool.connection() as conn:
+      with conn.cursor() as cur:
+        cur.execute(sql,params)
+        json = cur.fetchone()
+        return json[0]
+
 
 db = Db()
 
