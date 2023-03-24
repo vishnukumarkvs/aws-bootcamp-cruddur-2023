@@ -22,15 +22,15 @@ message_group_uuid = "5ae290ed-55d1-47a0-bc6d-fe2bc2700399"
 # 'KeyConditionExpression': 'pk = :pk AND begins_with(sk,:year)',
 query_params = {
   'TableName': table_name,
-  'KeyConditionExpression': 'pk = :pk AND sk between :start_date AND :end_date',
-  # 'KeyConditionExpression': 'pk = :pk AND begins_with(sk,:year)',
+  # 'KeyConditionExpression': 'pk = :pk AND sk between :start_date AND :end_date',
+  'KeyConditionExpression': 'pk = :pk AND begins_with(sk,:year)',
   'ScanIndexForward': False,
   'Limit': 20,
   'ExpressionAttributeValues': {
     ':pk': {'S': f"MSG#{message_group_uuid}"},
-    # ':year': {'S': '2023'},
-    ':start_date': {'S': '2023-03-01T00:00:00.000000+00:00'},
-    ':end_date': {'S': '2023-03-24T12:13:35.073546+00:00'}
+    ':year': {'S': '2023'}
+    # ':start_date': {'S': '2023-03-01T00:00:00.000000+00:00'},
+    # ':end_date': {'S': '2023-03-24T12:13:35.073546+00:00'}
   },
   'ReturnConsumedCapacity': 'TOTAL'
 }

@@ -36,7 +36,7 @@ def  get_my_uuid():
   return uuid
 
 
-brown_user_uuid = "2eb11db3-44a6-4152-bb14-3852ffe31d07"
+# brown_user_uuid = "2eb11db3-44a6-4152-bb14-3852ffe31d07"
 my_uuid = get_my_uuid()
 print("my_uuid",my_uuid)
 
@@ -45,7 +45,7 @@ query_params = {
   'TableName': table_name,
   'KeyConditionExpression': 'pk = :pk',
   'ExpressionAttributeValues': {
-    ':pk': {'S': f"GRP#{brown_user_uuid}"}
+    ':pk': {'S': f"GRP#{my_uuid}"}
   },
   'ReturnConsumedCapacity': 'TOTAL'
 }
