@@ -23,6 +23,7 @@ class Ddb:
       'Limit': 20,
       'ExpressionAttributeValues': {
         ':pk': {'S': f"GRP#{my_user_uuid}"}
+        # ':pk': {'S': f"GRP#7330ca8b-b925-408f-8fa3-01987bc8785"}
       }
     }
     print('query-params')

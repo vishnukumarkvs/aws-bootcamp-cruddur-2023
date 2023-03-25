@@ -31,14 +31,14 @@ def  get_my_uuid():
   """
 
   uuid = db.query_value(sql,{
-  'handle':  'andrewbrown',
+  'handle':  'vvvv',
   })
   return uuid
 
 
 # brown_user_uuid = "2eb11db3-44a6-4152-bb14-3852ffe31d07"
 my_uuid = get_my_uuid()
-print("my_uuid",my_uuid)
+print("my_uuid: ",my_uuid)
 
 # define the query parameters
 query_params = {

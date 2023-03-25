@@ -17,7 +17,7 @@ class Db:
     connection_url = os.getenv("CONNECTION_URL")
     # conn = "postgresql://postgres:password@db:5432/cruddur"
     print(f"{GREEN}{connection_url}{RESET}")
-    self.pool = ConnectionPool(conn)
+    self.pool = ConnectionPool(connection_url)
     # we want to commit data such as an insert
     # be sure to check for RETURNING in all uppercases
 
