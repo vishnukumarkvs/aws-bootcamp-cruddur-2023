@@ -4,11 +4,25 @@ import re
 import sys
 from flask import current_app as app
 
+# Define ASCII color codes
+GREEN = '\033[32m'
+RESET = '\033[0m'
+
+
 class Db:
   def __init__(self):
     self.init_pool()
 
+  def init_pool(self):
+    connection_url = os.getenv("CONNECTION_URL")
+    # conn = "postgresql://postgres:password@db:5432/cruddur"
+    print(f"{GREEN}{connection_url}{RESET}")
+    self.pool = ConnectionPool(conn)
+    # we want to commit data such as an insert
+    # be sure to check for RETURNING in all uppercases
+
   def template(self,*args):
+    print(f"{GREEN}enter template{RESET}")
     pathing = list((app.root_path,'db','sql',) + args)
     pathing[-1] = pathing[-1] + ".sql"
 
@@ -23,11 +37,7 @@ class Db:
       template_content = f.read()
     return template_content
 
-  def init_pool(self):
-    connection_url = os.getenv("CONNECTION_URL")
-    self.pool = ConnectionPool(connection_url)
-    # we want to commit data such as an insert
-    # be sure to check for RETURNING in all uppercases
+
   def print_params(self,params):
     blue = '\033[94m'
     no_color = '\033[0m'

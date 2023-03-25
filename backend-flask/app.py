@@ -94,12 +94,14 @@ cors = CORS(
 region = os.environ.get('AWS_DEFAULT_REGION')
 user_pool_id = os.environ.get('USER_POOL_ID')
 app_client_id = os.environ.get('APP_CLIENT_ID')
-cognito_user_id=''
+# cognito_user_id='EMPTY'
 
 # @app.before_request
 def verify_jwt_token():
+    app.logger.debug("verifying jwt started")
     auth_header = request.headers.get("Authorization")
     app.logger.debug(auth_header)
+    cognito_user_id='na'
     if auth_header is None or auth_header == 'Bearer null':
       # Authorization header is missing
       app.logger.debug("No header in Auth Token")
@@ -155,7 +157,7 @@ def verify_jwt_token():
           return False
       # now we can use the claims
       app.logger.debug(claims)
-    return True
+    return True, cognito_user_id
 
 # Rollbar ----------
 rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
@@ -182,11 +184,8 @@ def rollbar_test():
 
 @app.route("/api/activities/home", methods=['GET'])
 def data_home():
-  # app.logger.info("AUTH HEADER")
-  # app.logger.info(
-  #   request.headers.get("Authorization")
-  # )
-  session['is_auth'] = verify_jwt_token()
+
+  session['is_auth'],_ = verify_jwt_token()
   is_auth = session.get('is_auth', False)
   app.logger.debug("What is status:- ")
   app.logger.debug(is_auth)
@@ -202,13 +201,13 @@ def data_home():
 @app.route("/api/message_groups", methods=['GET'])
 def data_message_groups():
   
-  session['is_auth'] = verify_jwt_token()
+  session['is_auth'], cognito_user_id = verify_jwt_token()
   is_auth = session.get('is_auth', False)
   app.logger.debug(is_auth)
 
   if is_auth:
     app.logger.info('******Authenticated********')
-    print(cognito_user_id)
+    app.logger.debug(cognito_user_id)
     model = MessageGroups.run(cognito_user_id=cognito_user_id)
     if model['errors'] is not None:
       return model['errors'], 422
