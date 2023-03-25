@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
 from flask_cors import CORS, cross_origin
 import os
 import json
@@ -70,6 +70,8 @@ xray_url = os.getenv("AWS_XRAY_URL")
 xray_recorder.configure(service='backend-flask',dynamic_naming=xray_url)
 
 app = Flask(__name__)
+app.secret_key = 'kvsvk'
+
 
 XRayMiddleware(app,xray_recorder)
 
@@ -92,17 +94,16 @@ cors = CORS(
 region = os.environ.get('AWS_DEFAULT_REGION')
 user_pool_id = os.environ.get('USER_POOL_ID')
 app_client_id = os.environ.get('APP_CLIENT_ID')
+cognito_user_id=''
 
-@app.before_request
+# @app.before_request
 def verify_jwt_token():
-    global token_valid
     auth_header = request.headers.get("Authorization")
     app.logger.debug(auth_header)
     if auth_header is None or auth_header == 'Bearer null':
       # Authorization header is missing
-      app.logger.debug("No header")
-      token_valid=False
-      return
+      app.logger.debug("No header in Auth Token")
+      return False
     else:
       app.logger.debug('enetered')
       token = auth_header.split(' ')[1]
@@ -125,8 +126,7 @@ def verify_jwt_token():
               break
       if key_index == -1:
           print('Public key not found in jwks.json')
-          token_valid=False
-          return
+          return False
       # construct the public key
       public_key = jwk.construct(keys[key_index])
       # get the last two sections of the token,
@@ -138,26 +138,24 @@ def verify_jwt_token():
       if not public_key.verify(message.encode("utf8"), decoded_signature):
           app.logger.debug('Signature verification failed')
           token_valid=False
-          return
-      token_valid=True
+          return False
       print('Signature successfully verified')
       # since we passed the verification, we can now safely
       # use the unverified claims
       claims = jwt.get_unverified_claims(token)
       app.logger.debug(claims)
+      cognito_user_id = claims['sub']
       # additionally we can verify the token expiration
       if time.time() > claims['exp']:
-          token_valid=False
           app.logger.debug('Token is expired')
-          return
+          return False
       # and the Audience  (use claims['client_id'] if verifying an access token)
       if claims['client_id'] != app_client_id:
-          token_valid=False
           app.logger.debug('Token was not issued for this audience')
-          return
+          return False
       # now we can use the claims
       app.logger.debug(claims)
-    return
+    return True
 
 # Rollbar ----------
 rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
@@ -182,14 +180,44 @@ def rollbar_test():
   rollbar.report_message('Hello World','warning')
   return "Hello world"
 
+@app.route("/api/activities/home", methods=['GET'])
+def data_home():
+  # app.logger.info("AUTH HEADER")
+  # app.logger.info(
+  #   request.headers.get("Authorization")
+  # )
+  session['is_auth'] = verify_jwt_token()
+  is_auth = session.get('is_auth', False)
+  app.logger.debug("What is status:- ")
+  app.logger.debug(is_auth)
+  if is_auth:
+    app.logger.info('******Authenticated********')
+    data = HomeActivities.run(logger=LOGGER) 
+    return data, 200
+  else: 
+    app.logger.info('******NOT Authenticated********')
+    data = HomeActivities.run(logger=LOGGER) 
+    return data, 200
+
 @app.route("/api/message_groups", methods=['GET'])
 def data_message_groups():
-  user_handle  = 'andrewbrown'
-  model = MessageGroups.run(user_handle=user_handle)
-  if model['errors'] is not None:
-    return model['errors'], 422
+  
+  session['is_auth'] = verify_jwt_token()
+  is_auth = session.get('is_auth', False)
+  app.logger.debug(is_auth)
+
+  if is_auth:
+    app.logger.info('******Authenticated********')
+    print(cognito_user_id)
+    model = MessageGroups.run(cognito_user_id=cognito_user_id)
+    if model['errors'] is not None:
+      return model['errors'], 422
+    else:
+      return model['data'], 200
   else:
-    return model['data'], 200
+    app.logger.info('******NOT Authenticated********')
+    return jsonify({"Authenticated": "NO"}), 401
+
 
 @app.route("/api/messages/@<string:handle>", methods=['GET'])
 def data_messages(handle):
@@ -217,21 +245,7 @@ def data_create_message():
     return model['data'], 200
   return
 
-@app.route("/api/activities/home", methods=['GET'])
-def data_home():
-  # app.logger.info("AUTH HEADER")
-  # app.logger.info(
-  #   request.headers.get("Authorization")
-  # )
-  app.logger.debug(token_valid)
-  if token_valid:
-    app.logger.info('******Authenticated********')
-    data = HomeActivities.run(logger=LOGGER) 
-    return data, 200
-  else:
-    app.logger.info('******NOT Authenticated********')
-    data = HomeActivities.run(logger=LOGGER) 
-    return data, 200
+
 
 @app.route("/api/activities/notifications", methods=['GET'])
 def data_notifications():
