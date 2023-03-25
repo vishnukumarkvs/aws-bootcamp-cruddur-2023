@@ -218,17 +218,25 @@ def data_message_groups():
     return jsonify({"Authenticated": "NO"}), 401
 
 
-@app.route("/api/messages/@<string:handle>", methods=['GET'])
-def data_messages(handle):
-  user_sender_handle = 'andrewbrown'
-  user_receiver_handle = request.args.get('user_reciever_handle')
+@app.route("/api/messages/<string:message_group_uuid>", methods=['GET'])
+def data_messages(message_group_uuid):
 
-  model = Messages.run(user_sender_handle=user_sender_handle, user_receiver_handle=user_receiver_handle)
-  if model['errors'] is not None:
-    return model['errors'], 422
+  session['is_auth'], cognito_user_id = verify_jwt_token()
+  is_auth = session.get('is_auth', False)
+  app.logger.debug(is_auth)
+
+  if is_auth:
+    app.logger.info('******Authenticated********')
+    app.logger.debug(cognito_user_id)
+    model = Messages.run(cognito_user_id=cognito_user_id, message_group_uuid=message_group_uuid)
+    if model['errors'] is not None:
+      return model['errors'], 422
+    else:
+      return model['data'], 200
   else:
-    return model['data'], 200
-  return
+    app.logger.info('******NOT Authenticated********')
+    return jsonify({"Authenticated": "NO"}), 401
+
 
 @app.route("/api/messages", methods=['POST','OPTIONS'])
 @cross_origin()
