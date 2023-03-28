@@ -1,0 +1,7 @@
+#! /usr/bin/bash
+-e # stop it fails at any point in script
+bin_path="$(realpath .)/bin"
+
+
+python3  "$bin_path/ddb/schema-load"
+python3  "$bin_path/ddb/seed"
