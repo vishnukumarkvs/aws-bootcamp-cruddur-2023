@@ -9,6 +9,9 @@ attrs = {
 
 table_name=""
 
+if len(sys.argv)==1:
+  table_name="cruddur-messages"
+
 if len(sys.argv)==2:
   if "prod" in sys.argv[1]:
     attrs={}
