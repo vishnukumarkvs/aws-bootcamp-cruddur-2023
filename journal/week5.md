@@ -70,7 +70,7 @@ Reference - https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/How
 ![new user done](https://user-images.githubusercontent.com/116954249/228729091-d4d7608a-d864-4346-b565-8011d9a27948.png)
 
 
-# Security bu Ashish
+# Security by Ashish
 
 - NoSql are speedy
 
