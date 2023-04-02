@@ -106,7 +106,7 @@ def verify_jwt_token():
     if auth_header is None or auth_header == 'Bearer null':
       # Authorization header is missing
       app.logger.debug("No header in Auth Token")
-      return False
+      return False, None
     else:
       app.logger.debug('enetered')
       token = auth_header.split(' ')[1]
@@ -129,7 +129,7 @@ def verify_jwt_token():
               break
       if key_index == -1:
           print('Public key not found in jwks.json')
-          return False
+          return False, None
       # construct the public key
       public_key = jwk.construct(keys[key_index])
       # get the last two sections of the token,
@@ -140,8 +140,7 @@ def verify_jwt_token():
       # verify the signature
       if not public_key.verify(message.encode("utf8"), decoded_signature):
           app.logger.debug('Signature verification failed')
-          token_valid=False
-          return False
+          return False, None
       print('Signature successfully verified')
       # since we passed the verification, we can now safely
       # use the unverified claims
@@ -151,11 +150,11 @@ def verify_jwt_token():
       # additionally we can verify the token expiration
       if time.time() > claims['exp']:
           app.logger.debug('Token is expired')
-          return False
+          return False, None
       # and the Audience  (use claims['client_id'] if verifying an access token)
       if claims['client_id'] != app_client_id:
           app.logger.debug('Token was not issued for this audience')
-          return False
+          return False, None
       # now we can use the claims
       app.logger.debug(claims)
     return True, cognito_user_id

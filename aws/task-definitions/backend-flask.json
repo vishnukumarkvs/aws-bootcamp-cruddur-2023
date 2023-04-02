@@ -10,19 +10,6 @@
     ],
     "containerDefinitions": [
       {
-        "name": "xray",
-        "image": "public.ecr.aws/xray/aws-xray-daemon" ,
-        "essential": true,
-        "user": "1337",
-        "portMappings": [
-          {
-            "name": "xray",
-            "containerPort": 2000,
-            "protocol": "udp"
-          }
-        ]
-      },
-      {
         "name": "backend-flask",
         "image": "895656015678.dkr.ecr.us-east-1.amazonaws.com/backend-flask",
         "essential": true,
@@ -55,11 +42,12 @@
         "environment": [
           {"name": "OTEL_SERVICE_NAME", "value": "backend-flask"},
           {"name": "OTEL_EXPORTER_OTLP_ENDPOINT", "value": "https://api.honeycomb.io"},
-          {"name": "AWS_COGNITO_USER_POOL_ID", "value": "us-east-1_GXuDhauuC"},
-          {"name": "AWS_COGNITO_USER_POOL_CLIENT_ID", "value": "aeq6go04064iatnd5laeoembc"},
+          {"name": "USER_POOL_ID", "value": "us-east-1_GXuDhauuC"},
+          {"name": "APP_CLIENT_ID", "value": "aeq6go04064iatnd5laeoembc"},
           {"name": "FRONTEND_URL", "value": "*"},
           {"name": "BACKEND_URL", "value": "*"},
-          {"name": "AWS_DEFAULT_REGION", "value": "us-east-1"}
+          {"name": "AWS_DEFAULT_REGION", "value": "us-east-1"},
+          {"name": "AWS_XRAY_SDK_ENABLED","value": "False"}
         ],
         "secrets": [
           {"name": "AWS_ACCESS_KEY_ID"    , "valueFrom": "arn:aws:ssm:us-east-1:895656015678:parameter/cruddur/backend-flask/AWS_ACCESS_KEY_ID"},
