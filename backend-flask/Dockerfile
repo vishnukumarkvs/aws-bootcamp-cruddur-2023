@@ -1,4 +1,4 @@
-FROM python:3.10-slim-buster
+FROM 895656015678.dkr.ecr.us-east-1.amazonaws.com/cruddur-python:3.10-slim-buster
 
 # Creates folder Inside container
 WORKDIR /backend-flask
@@ -17,7 +17,8 @@ RUN apt-get update && apt-get install -y curl
 COPY . .
 
 # Set inside container and will be there
-ENV FLASK_ENV=development
+# ENV FLASK_ENV=development
+ENV FLASK_DEBUG=1
 
 EXPOSE ${PORT}
 
