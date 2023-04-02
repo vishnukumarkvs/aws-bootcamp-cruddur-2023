@@ -1,11 +1,34 @@
 {
-    "Version":"2012-10-17",
-    "Statement":[{
+  "Version":"2012-10-17",
+  "Statement":[{
       "Effect": "Allow",
       "Action": [
         "ssm:GetParameters",
         "ssm:GetParameter"
       ],
       "Resource": "arn:aws:ssm:us-east-1:895656015678:parameter/cruddur/backend-flask/*"
-    }]
-  }
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogStreams"
+      ],
+      "Resource": "arn:aws:logs:*:*:*"
+    }
+  ]
+}
