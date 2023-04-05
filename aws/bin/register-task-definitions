@@ -1,0 +1,16 @@
+#! /usr/bin/bash
+
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="Register task definitions"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+if [ "$1" = "frontend" ]; then
+  aws ecs register-task-definition --cli-input-json file://task-definitions/frontend-react-js.json
+elif [ "$1" = "backend" ]; then
+  aws ecs register-task-definition --cli-input-json file://task-definitions/backend-flask.json
+else
+  echo "Registering both frontend and backend"
+  aws ecs register-task-definition --cli-input-json file://task-definitions/frontend-react-js.json
+  aws ecs register-task-definition --cli-input-json file://task-definitions/backend-flask.json
+fi

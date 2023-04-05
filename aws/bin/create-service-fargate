@@ -1,0 +1,16 @@
+#! /usr/bin/bash
+
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="Create service in fargate"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+if [ "$1" = "frontend" ]; then
+  aws ecs create-service --cli-input-json file://json/service-frontend-react-js.json
+elif [ "$1" = "backend" ]; then
+  aws ecs create-service --cli-input-json file://json/service-backend-flask.json
+else
+  echo "Creating both frontend and backend services fargate"
+  aws ecs create-service --cli-input-json file://json/service-backend-flask.json
+  aws ecs create-service --cli-input-json file://json/service-frontend-react-js.json
+fi
