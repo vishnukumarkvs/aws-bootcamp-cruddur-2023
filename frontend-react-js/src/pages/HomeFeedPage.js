@@ -5,7 +5,7 @@ import DesktopSidebar     from '../components/DesktopSidebar';
 import ActivityFeed from '../components/ActivityFeed';
 import ActivityForm from '../components/ActivityForm';
 import ReplyForm from '../components/ReplyForm';
-import checkAuth from '../lib/CheckAuth';
+import checkAuth,{getAccessToken} from '../lib/CheckAuth';
 
 
 export default function HomeFeedPage() {
@@ -19,9 +19,11 @@ export default function HomeFeedPage() {
   const loadData = async () => {
     try {
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/home`
+      const access_token = await getAccessToken()
+      console.log("accessToken",access_token)
       const res = await fetch(backend_url, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`
+          Authorization: `Bearer ${access_token}`
         },
         method: "GET"
       });
