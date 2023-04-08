@@ -1,0 +1,15 @@
+#! /usr/bin/bash
+
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="Create load balancer"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+aws elbv2 create-load-balancer \
+--name cruddur-alb \
+--subnets subnet-03068d4e subnet-1045814f subnet-81fa01e7 subnet-c263decc subnet-b871b799 subnet-7db0bf43 \
+--security-groups sg-0c250257fafae3ef7 \
+--type application
+
+export LB_ARN=$(aws elbv2 describe-load-balancers --names cruddur-alb --query "LoadBalancers[*].LoadBalancerArn" --output text)
+echo $LB_ARN

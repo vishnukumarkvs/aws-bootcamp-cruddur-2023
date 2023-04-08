@@ -1,0 +1,15 @@
+#! /usr/bin/bash
+
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="Create rules for https listener"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+
+aws elbv2 create-rule --listener-arn $LISTENER_ARN \
+--priority 1 \
+--conditions Field=host-header,Values=cruddur.vishnukvs.xyz --actions Type=forward,TargetGroupArn=$FRONTEND_TARGET_GROUP_ARN
+
+aws elbv2 create-rule --listener-arn $LISTENER_ARN \
+--priority 2 \
+--conditions Field=host-header,Values=api.cruddur.vishnukvs.xyz --actions Type=forward,TargetGroupArn=$BACKEND_TARGET_GROUP_ARN

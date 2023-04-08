@@ -1,0 +1,9 @@
+#! /usr/bin/bash
+
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="Get ACM Certificate for domain vishnukvs.xyz"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+export ACM_CERTIFICATE=$(aws acm list-certificates --query "CertificateSummaryList[?DomainName=='vishnukvs.xyz'].CertificateArn" --output text)
+echo $ACM_CERTIFICATE

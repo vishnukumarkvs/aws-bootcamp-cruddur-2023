@@ -1,0 +1,34 @@
+#! /usr/bin/bash
+
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="Create target groups"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+export DEFAULT_VPC_ID=$(aws ec2 describe-vpcs \
+--filters "Name=isDefault, Values=true" \
+--query "Vpcs[0].VpcId" \
+--output text)
+
+echo $DEFAULT_VPC_ID
+
+aws elbv2 create-target-group \
+    --name cruddur-backend-flask-tg \
+    --protocol HTTP \
+    --port 4567 \
+    --target-type ip \
+    --vpc-id $DEFAULT_VPC_ID \
+    --health-check-path /api/health-check
+
+aws elbv2 create-target-group \
+    --name cruddur-frontend-reactjs-tg \
+    --protocol HTTP \
+    --port 3000 \
+    --target-type ip \
+    --vpc-id $DEFAULT_VPC_ID
+
+export FRONTEND_TARGET_GROUP_ARN=$(aws elbv2 describe-target-groups --names cruddur-frontend-reactjs-tg --query "TargetGroups[*].TargetGroupArn" --output text)
+export BACKEND_TARGET_GROUP_ARN=$(aws elbv2 describe-target-groups --names cruddur-backend-flask-tg --query "TargetGroups[*].TargetGroupArn" --output text)
+
+echo $FRONTEND_TARGET_GROUP_ARN
+echo $BACKEND_TARGET_GROUP_ARN

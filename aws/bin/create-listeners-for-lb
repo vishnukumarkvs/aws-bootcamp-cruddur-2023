@@ -1,0 +1,23 @@
+#! /usr/bin/bash
+
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="Create http redirect and https listener"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+
+aws elbv2 create-listener \
+--load-balancer-arn $LB_ARN \
+--protocol HTTP \
+--port 80 \
+--default-actions Type=redirect,RedirectConfig="{Protocol=HTTPS,Port=443,StatusCode=HTTP_301}"
+
+
+aws elbv2 create-listener \
+--load-balancer-arn $LB_ARN \
+--protocol HTTPS \
+--port 443 \
+--certificates CertificateArn=$ACM_CERTIFICATE \
+--default-actions Type=fixed-response,FixedResponseConfig="{StatusCode=404,ContentType=text/plain,MessageBody=\"Visit cruddur.vishnukvs.xyz\"}"
+
+export LISTENER_ARN=$(aws elbv2 describe-listeners --load-balancer-arn $LB_ARN --query "Listeners[?Protocol=='HTTPS'].ListenerArn" --output text)
