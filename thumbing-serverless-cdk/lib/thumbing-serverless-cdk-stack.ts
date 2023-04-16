@@ -1,5 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import * as s3 from 'aws-cdk-lib/aws-s3'
+import * as s3n from 'aws-cdk-lib/aws-s3-notifications'
 import * as lambda from 'aws-cdk-lib/aws-lambda'
 import { Construct } from 'constructs';
 import * as dotenv from 'dotenv';
@@ -18,6 +19,9 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
 
    const bucket = this.createBucket(bucketName)
    const lambda = this.createLambda(functionPath, bucketName, folderInput, folderOutput)
+
+   this.createS3NotifyToLambda(folderInput,lambda,bucket)
+
   }
 
   createBucket(bucketName: string): s3.IBucket{
@@ -43,4 +47,21 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
      })
      return lambdaFunction;
    }
+
+  // description below
+   createS3NotifyToLambda(prefix: string, lambda: lambda.IFunction, bucket: s3.IBucket): void{
+    const destination = new s3n.LambdaDestination(lambda);
+    bucket.addEventNotification(
+      s3.EventType.OBJECT_CREATED_PUT,
+      destination,
+      {prefix:prefix}
+     )
+   }
 }
+
+// createS3NotifyToLambda
+// This is a TypeScript/JavaScript function that creates an S3 event notification that triggers an AWS Lambda function when an object is created and PUT into an S3 bucket. The function takes three parameters: a string prefix, an AWS Lambda function lambda, and an S3 bucket bucket.
+// The function creates a new LambdaDestination object, which represents the destination of the S3 event notification. This destination is set to the lambda function passed as a parameter.
+// Then, the bucket is configured to send an event notification when an object is created and PUT into the bucket. The event type is specified as s3.EventType.OBJECT_CREATED_PUT. The destination is set as the destination of the event notification. 
+// The prefix parameter is used to specify a folder path within the bucket, where the original images are stored. 
+   
