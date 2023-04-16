@@ -1,0 +1,11 @@
+#! /usr/bin/bash
+
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="Create ECR Repository for frontend and backend"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
+
+cd /workspace/aws-bootcamp-cruddur-2023/aws/lambdas/process-images/
+npm install
+rm -rf node_modules/sharp
+SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm install --arch=x64 --platform=linux --libc=glibc sharp
