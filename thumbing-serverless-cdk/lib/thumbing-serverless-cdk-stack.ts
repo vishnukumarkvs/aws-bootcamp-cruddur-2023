@@ -2,8 +2,10 @@ import * as cdk from 'aws-cdk-lib';
 import * as s3 from 'aws-cdk-lib/aws-s3'
 import * as s3n from 'aws-cdk-lib/aws-s3-notifications'
 import * as lambda from 'aws-cdk-lib/aws-lambda'
+import * as iam from 'aws-cdk-lib/aws-iam'
 import { Construct } from 'constructs';
 import * as dotenv from 'dotenv';
+import { IamResource } from 'aws-cdk-lib/aws-appsync';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 dotenv.config();
@@ -17,18 +19,27 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
    const folderInput: string = process.env.THUMBING_S3_FOLDER_INPUT as string;
    const folderOutput: string = process.env.THUMBING_S3_FOLDER_OUTPUT as string;
 
-   const bucket = this.createBucket(bucketName)
+  //  const bucket = this.createBucket(bucketName)
+   const bucket = this.importBucket(bucketName)
    const lambda = this.createLambda(functionPath, bucketName, folderInput, folderOutput)
 
    this.createS3NotifyToLambda(folderInput,lambda,bucket)
 
+   const s3ReadWriteAccessPolicy = this.createPolicyBucketAccess(bucket.bucketArn)
+   lambda.addToRolePolicy(s3ReadWriteAccessPolicy)
+
   }
 
   createBucket(bucketName: string): s3.IBucket{
-    const bucket = new s3.Bucket(this,"ThumbingBucket",{
+    const bucket = new s3.Bucket(this,"AssetsBucket",{
       bucketName: bucketName,
       removalPolicy: cdk.RemovalPolicy.DESTROY
     });
+    return bucket;
+   }
+
+   importBucket(bucketName:string): s3.IBucket{
+    const bucket = s3.Bucket.fromBucketName(this,"AssetsBucket", bucketName);
     return bucket;
    }
 
@@ -56,6 +67,19 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
       destination,
       {prefix:prefix}
      )
+   }
+
+   createPolicyBucketAccess(bucketArn: string){
+    const s3ReadWriteAccessPolicy = new iam.PolicyStatement({
+      actions: [
+        's3:GetObject',
+        's3:PutObject',
+      ],
+      resources:[
+        `${bucketArn}/*`
+      ]
+    });
+    return s3ReadWriteAccessPolicy;
    }
 }
 
