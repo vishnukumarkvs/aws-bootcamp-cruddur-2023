@@ -14,24 +14,29 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-   const bucketName: string = process.env.THUMBING_BUCKET_NAME as string;
+   const assetsBucketName: string = process.env.ASSETS_BUCKET_NAME as string;
+   const uploadsBucketName: string = process.env.UPLOADS_BUCKET_NAME as string;
    const functionPath: string = process.env.THUMBING_FUNCTION_PATH as string;
    const folderInput: string = process.env.THUMBING_S3_FOLDER_INPUT as string;
    const folderOutput: string = process.env.THUMBING_S3_FOLDER_OUTPUT as string;
 
-  //  const bucket = this.createBucket(bucketName)
-   const bucket = this.importBucket(bucketName)
-   const lambda = this.createLambda(functionPath, bucketName, folderInput, folderOutput)
+   const uploadsBucket = this.createBucket(uploadsBucketName)
+   const assetssBucket = this.importBucket(assetsBucketName)
 
-   this.createS3NotifyToLambda(folderInput,lambda,bucket)
+   const lambda = this.createLambda(functionPath, assetsBucketName, folderInput, folderOutput)
 
-   const s3ReadWriteAccessPolicy = this.createPolicyBucketAccess(bucket.bucketArn)
-   lambda.addToRolePolicy(s3ReadWriteAccessPolicy)
+   this.createS3NotifyToLambda(folderInput,lambda,uploadsBucket)
+
+   const assetsS3ReadWriteAccessPolicy = this.createPolicyBucketAccess(assetssBucket.bucketArn)
+   const uploadsS3ReadWriteAccessPolicy = this.createPolicyBucketAccess(uploadsBucket.bucketArn)
+
+   lambda.addToRolePolicy(assetsS3ReadWriteAccessPolicy)
+   lambda.addToRolePolicy(uploadsS3ReadWriteAccessPolicy)
 
   }
 
   createBucket(bucketName: string): s3.IBucket{
-    const bucket = new s3.Bucket(this,"AssetsBucket",{
+    const bucket = new s3.Bucket(this,"UploadsBucket",{
       bucketName: bucketName,
       removalPolicy: cdk.RemovalPolicy.DESTROY
     });
@@ -64,8 +69,8 @@ export class ThumbingServerlessCdkStack extends cdk.Stack {
     const destination = new s3n.LambdaDestination(lambda);
     bucket.addEventNotification(
       s3.EventType.OBJECT_CREATED_PUT,
-      destination,
-      {prefix:prefix}
+      destination//,
+      //{prefix:prefix}
      )
    }
 
