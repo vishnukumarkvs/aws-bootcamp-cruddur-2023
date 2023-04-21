@@ -348,10 +348,10 @@ def data_users_short(handle):
 def data_update_profile():
   bio          = request.json.get('bio',None)
   display_name = request.json.get('display_name',None)
-  access_token = extract_access_token(request.headers)
-  try:
-    claims = cognito_jwt_token.verify(access_token)
-    cognito_user_id = claims['sub']
+  session['is_auth'], cognito_user_id = verify_jwt_token()
+  is_auth = session.get('is_auth', False)
+  app.logger.debug(is_auth)
+  if is_auth:
     model = UpdateProfile.run(
       cognito_user_id=cognito_user_id,
       bio=bio,
@@ -361,10 +361,9 @@ def data_update_profile():
       return model['errors'], 422
     else:
       return model['data'], 200
-  except TokenVerifyError as e:
-    # unauthenicatied request
-    app.logger.debug(e)
-    return {}, 401
+  else:
+    app.logger.info('******NOT Authenticated********')
+    return jsonify({"Authenticated": "NO"}), 401
 
 if __name__ == "__main__":
   app.run(debug=True)
