@@ -15,6 +15,11 @@ form.profile_form textarea {
   color: #fff;
 }
 
+.profile_popup .upload {
+  color: white;
+  background: green;
+}
+
 .profile_popup .popup_content {
   padding: 16px;
 }
