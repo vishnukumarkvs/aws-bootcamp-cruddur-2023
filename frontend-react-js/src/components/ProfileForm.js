@@ -13,17 +13,12 @@ export default function ProfileForm(props) {
     setDisplayName(props.profile.display_name);
   }, [props.profile])
 
-  const s3uploadkey = async (extension)=> {
-    console.log('ext',extension)
+  const s3uploadkey = async ()=> {
     try {
-      const gateway_url = `${process.env.REACT_APP_API_GATEWAY_ENDPOINT_URL}/avatars/key_upload`
+      const gateway_url = "https://7lo1ligekk.execute-api.us-east-1.amazonaws.com/avatars/key_upload"
       const access_token = await getAccessToken()
-      const json = {
-        extension: extension
-      }
       const res = await fetch(gateway_url, {
         method: "POST",
-        body: JSON.stringify(json),
         headers: {
           'Origin': process.env.REACT_APP_FRONTEND_URL,
           'Authorization': `Bearer ${access_token}`,
@@ -33,7 +28,8 @@ export default function ProfileForm(props) {
       })
       let data = await res.json();
       if (res.status === 200) {
-        return data.url
+        console.log('presigned_url',data)
+        // return data.url
       } else {
         console.log(res)
       }
