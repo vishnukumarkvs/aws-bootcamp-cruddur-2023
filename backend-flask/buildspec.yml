@@ -30,7 +30,6 @@ env:
     CONTAINER_NAME: backend-flask
     IMAGE_URL: 895656015678.dkr.ecr.us-east-1.amazonaws.com
     REPO_NAME: backend-flask:latest
-  parameter-store:
     
 artifacts:
   files:
