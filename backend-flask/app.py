@@ -185,7 +185,7 @@ with app.app_context():
 
 @app.route('/api/health-check')
 def health_check():
-  return {'success': True}, 200
+  return {'success': True, 'version': 1}, 200
 
 @app.route("/api/activities/home", methods=['GET'])
 def data_home():
