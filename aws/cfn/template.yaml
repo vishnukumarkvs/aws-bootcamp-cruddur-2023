@@ -6,4 +6,8 @@ Description: |
 Resources:
   ECSCluster:
     Type: 'AWS::ECS::Cluster'
+    Properties:
+      ClusterName: MyCluster
+      CapacityProviders:
+      - Fargate
 
