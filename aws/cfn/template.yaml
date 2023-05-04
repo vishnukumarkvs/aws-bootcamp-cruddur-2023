@@ -9,5 +9,5 @@ Resources:
     Properties:
       ClusterName: MyCluster
       CapacityProviders:
-      - Fargate
+      - FARGATE
 
