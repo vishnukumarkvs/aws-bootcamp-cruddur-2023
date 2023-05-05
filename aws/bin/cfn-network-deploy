@@ -1,0 +1,11 @@
+#! /usr/bin/env bash
+set -e # stop the execution if it fails
+
+CFN_PATH="/workspaces/aws-bootcamp-cruddur-2023/aws/cfn/networking/template.yaml"
+
+aws cloudformation deploy \
+  --stack-name "cruddur" \
+  --template-file $CFN_PATH \
+  --s3-bucket "cfn-artifacts-kvs" \
+  --no-execute-changeset \
+  --capabilities CAPABILITY_NAMED_IAM
