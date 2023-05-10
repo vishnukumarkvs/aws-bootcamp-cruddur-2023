@@ -10,24 +10,37 @@ Parameters:
   Az3:
     Type: AWS::EC2::AvailabilityZone::Name
     Default: us-east-1c
+  VpcCidrBlock:
+    Type: String
+    Default: 10.0.0.0/16
+  SubnetCidrBlocks:
+    Description: "Comma-delimited list of CIDR blocks for our private and public subnets"
+    Type: CommaDelimitedList
+    Default: >
+      10.0.0.0/24, 
+      10.0.1.0/24, 
+      10.0.2.0/24, 
+      10.0.3.0/24, 
+      10.0.4.0/24, 
+      10.0.5.0/24 
     
 Resources:
   VPC:
     Type: AWS::EC2::VPC
     Properties:
-      CidrBlock: 10.0.0.0/16
+      CidrBlock: !Ref VpcCidrBlock
       EnableDnsHostnames: true
       EnableDnsSupport: true
       InstanceTenancy: default
       Tags:
         - Key: Name
-          Value: CruddurVPC
+          Value: !Sub "${AWS::StackName}VPC"
   IGW:
     Type: AWS::EC2::InternetGateway
     Properties:
       Tags:
         - Key: Name
-          Value: CruddurIGW
+          Value: !Sub "${AWS::StackName}IGW"
   AttachInternetGateway:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties: 
@@ -38,7 +51,7 @@ Resources:
     Properties: 
       Tags: 
         - Key: Name
-          Value: CruddurVpcRT
+          Value: !Sub "${AWS::StackName}RT"
       VpcId: !Ref VPC   
   RouteToIGW:
   # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-route.html
@@ -52,68 +65,68 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       AvailabilityZone: !Ref Az1
-      CidrBlock: 10.0.0.0/24
+      CidrBlock: !Select [0, !Ref SubnetCidrBlocks]
       EnableDns64: false
       MapPublicIpOnLaunch: true
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: CruddurPubSubA
+          Value: !Sub "${AWS::StackName}PubSubA"
   PubSubB:
     Type: AWS::EC2::Subnet
     Properties:
       AvailabilityZone: !Ref Az2
-      CidrBlock: 10.0.1.0/24
+      CidrBlock: !Select [1, !Ref SubnetCidrBlocks]
       EnableDns64: false
       MapPublicIpOnLaunch: true
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: CruddurPubSubB
+          Value: !Sub "${AWS::StackName}PubSubB"
   PubSubC:
     Type: AWS::EC2::Subnet
     Properties:
       AvailabilityZone: !Ref Az3
-      CidrBlock: 10.0.2.0/24
+      CidrBlock: !Select [2, !Ref SubnetCidrBlocks]
       EnableDns64: false
       MapPublicIpOnLaunch: true
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: CruddurPubSubC
+          Value: !Sub "${AWS::StackName}PubSubC"
   PriSubA:
     Type: AWS::EC2::Subnet
     Properties:
       AvailabilityZone: !Ref Az1
-      CidrBlock: 10.0.3.0/24
+      CidrBlock: !Select [3, !Ref SubnetCidrBlocks]
       EnableDns64: false
       MapPublicIpOnLaunch: true
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: CruddurPriSubA
+          Value: !Sub "${AWS::StackName}PriSubA"
   PriSubB:
     Type: AWS::EC2::Subnet
     Properties:
       AvailabilityZone: !Ref Az2
-      CidrBlock: 10.0.4.0/24
+      CidrBlock: !Select [4, !Ref SubnetCidrBlocks]
       EnableDns64: false
       MapPublicIpOnLaunch: true
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: CruddurPriSubB
+          Value: !Sub "${AWS::StackName}PriSubB"
   PriSubC:
     Type: AWS::EC2::Subnet
     Properties:
       AvailabilityZone: !Ref Az3
-      CidrBlock: 10.0.5.0/24
+      CidrBlock: !Select [5, !Ref SubnetCidrBlocks]
       EnableDns64: false
       MapPublicIpOnLaunch: true
       VpcId: !Ref VPC
       Tags:
         - Key: Name
-          Value: CruddurPriSubC
+          Value: !Sub "${AWS::StackName}PriSubC"
   PubSub1RTAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties: 
@@ -149,6 +162,40 @@ Resources:
     Properties: 
       RouteTableId: !Ref RouteTable
       SubnetId: !Ref PriSubC
-  
-
-    
+Outputs:
+  VpcId:
+    Value: !Ref VPC
+    Export:
+      Name: VpcId
+  VpcCidrBlock:
+    Value: !GetAtt VPC.CidrBlock
+    Export:
+      Name: !Sub "${AWS::StackName}VpcCidrBlock"
+  SubnetCidrBlocks:
+    Value: !Join [",", !Ref SubnetCidrBlocks]
+    Export:
+      Name: !Sub "${AWS::StackName}SubnetCidrBlocks"
+  PublicSubnetIds:
+    Value: !Join 
+      - ","
+      - - !Ref PubSubA
+        - !Ref PubSubB
+        - !Ref PubSubC
+    Export:
+      Name: !Sub "${AWS::StackName}PublicSubnetIds"
+  PrivateSubnetIds:
+    Value: !Join 
+      - ","
+      - - !Ref PriSubA
+        - !Ref PriSubB
+        - !Ref PriSubC
+    Export:
+      Name: !Sub "${AWS::StackName}PrivateSubnetIds"
+  AvailabilityZones:
+    Value: !Join 
+      - ","
+      - - !Ref Az1
+        - !Ref Az2
+        - !Ref Az3
+    Export:
+      Name: !Sub "${AWS::StackName}AvailabilityZones"
