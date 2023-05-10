@@ -1,5 +1,16 @@
 AWSTemplateFormatVersion: 2010-09-09
 
+Parameters:
+  Az1:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Default: us-east-1a
+  Az2:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Default: us-east-1b
+  Az3:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Default: us-east-1c
+    
 Resources:
   VPC:
     Type: AWS::EC2::VPC
@@ -41,7 +52,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       AssignIpv6AddressOnCreation: false
-      AvailabilityZone: us-east-1a
+      AvailabilityZone: !Ref Az1
       CidrBlock: 10.0.0.0/24
       EnableDns64: false
       MapPublicIpOnLaunch: true
@@ -53,7 +64,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       AssignIpv6AddressOnCreation: false
-      AvailabilityZone: us-east-1b
+      AvailabilityZone: !Ref Az2
       CidrBlock: 10.0.1.0/24
       EnableDns64: false
       MapPublicIpOnLaunch: true
@@ -65,7 +76,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       AssignIpv6AddressOnCreation: false
-      AvailabilityZone: us-east-1c
+      AvailabilityZone: !Ref Az3
       CidrBlock: 10.0.2.0/24
       EnableDns64: false
       MapPublicIpOnLaunch: true
@@ -77,7 +88,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       AssignIpv6AddressOnCreation: false
-      AvailabilityZone: us-east-1d
+      AvailabilityZone: !Ref Az1
       CidrBlock: 10.0.3.0/24
       EnableDns64: false
       MapPublicIpOnLaunch: true
@@ -89,7 +100,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       AssignIpv6AddressOnCreation: false
-      AvailabilityZone: us-east-1e
+      AvailabilityZone: !Ref Az2
       CidrBlock: 10.0.4.0/24
       EnableDns64: false
       MapPublicIpOnLaunch: true
@@ -101,7 +112,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       AssignIpv6AddressOnCreation: false
-      AvailabilityZone: us-east-1f
+      AvailabilityZone: !Ref Az3
       CidrBlock: 10.0.5.0/24
       EnableDns64: false
       MapPublicIpOnLaunch: true
