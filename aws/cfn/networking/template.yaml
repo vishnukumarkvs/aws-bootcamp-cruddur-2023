@@ -51,7 +51,6 @@ Resources:
   PubSubA:
     Type: AWS::EC2::Subnet
     Properties:
-      AssignIpv6AddressOnCreation: false
       AvailabilityZone: !Ref Az1
       CidrBlock: 10.0.0.0/24
       EnableDns64: false
@@ -63,7 +62,6 @@ Resources:
   PubSubB:
     Type: AWS::EC2::Subnet
     Properties:
-      AssignIpv6AddressOnCreation: false
       AvailabilityZone: !Ref Az2
       CidrBlock: 10.0.1.0/24
       EnableDns64: false
@@ -75,7 +73,6 @@ Resources:
   PubSubC:
     Type: AWS::EC2::Subnet
     Properties:
-      AssignIpv6AddressOnCreation: false
       AvailabilityZone: !Ref Az3
       CidrBlock: 10.0.2.0/24
       EnableDns64: false
@@ -87,7 +84,6 @@ Resources:
   PriSubA:
     Type: AWS::EC2::Subnet
     Properties:
-      AssignIpv6AddressOnCreation: false
       AvailabilityZone: !Ref Az1
       CidrBlock: 10.0.3.0/24
       EnableDns64: false
@@ -99,7 +95,6 @@ Resources:
   PriSubB:
     Type: AWS::EC2::Subnet
     Properties:
-      AssignIpv6AddressOnCreation: false
       AvailabilityZone: !Ref Az2
       CidrBlock: 10.0.4.0/24
       EnableDns64: false
@@ -111,7 +106,6 @@ Resources:
   PriSubC:
     Type: AWS::EC2::Subnet
     Properties:
-      AssignIpv6AddressOnCreation: false
       AvailabilityZone: !Ref Az3
       CidrBlock: 10.0.5.0/24
       EnableDns64: false
