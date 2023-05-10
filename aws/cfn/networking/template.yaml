@@ -37,4 +37,113 @@ Resources:
         RouteTableId: !Ref RouteTable
         DestinationCidrBlock: 0.0.0.0/0
         GatewayId: !Ref IGW
+  PubSubA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AssignIpv6AddressOnCreation: false
+      AvailabilityZone: us-east-1a
+      CidrBlock: 10.0.0.0/24
+      EnableDns64: false
+      MapPublicIpOnLaunch: true
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: CruddurPubSubA
+  PubSubB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AssignIpv6AddressOnCreation: false
+      AvailabilityZone: us-east-1b
+      CidrBlock: 10.0.1.0/24
+      EnableDns64: false
+      MapPublicIpOnLaunch: true
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: CruddurPubSubB
+  PubSubC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AssignIpv6AddressOnCreation: false
+      AvailabilityZone: us-east-1c
+      CidrBlock: 10.0.2.0/24
+      EnableDns64: false
+      MapPublicIpOnLaunch: true
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: CruddurPubSubC
+  PriSubA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AssignIpv6AddressOnCreation: false
+      AvailabilityZone: us-east-1d
+      CidrBlock: 10.0.3.0/24
+      EnableDns64: false
+      MapPublicIpOnLaunch: true
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: CruddurPriSubA
+  PriSubB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AssignIpv6AddressOnCreation: false
+      AvailabilityZone: us-east-1e
+      CidrBlock: 10.0.4.0/24
+      EnableDns64: false
+      MapPublicIpOnLaunch: true
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: CruddurPriSubB
+  PriSubC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AssignIpv6AddressOnCreation: false
+      AvailabilityZone: us-east-1f
+      CidrBlock: 10.0.5.0/24
+      EnableDns64: false
+      MapPublicIpOnLaunch: true
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: CruddurPriSubC
+  PubSub1RTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: 
+      RouteTableId: !Ref RouteTable
+      SubnetId: !Ref PubSubA
+
+  PubSub2RTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: 
+      RouteTableId: !Ref RouteTable
+      SubnetId: !Ref PubSubB
+
+  PubSub3RTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: 
+      RouteTableId: !Ref RouteTable
+      SubnetId: !Ref PubSubC
+
+  PriSub1RTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: 
+      RouteTableId: !Ref RouteTable
+      SubnetId: !Ref PriSubA
+
+  PriSub2RTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: 
+      RouteTableId: !Ref RouteTable
+      SubnetId: !Ref PriSubB
+
+  PriSub3RTAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: 
+      RouteTableId: !Ref RouteTable
+      SubnetId: !Ref PriSubC
+  
+
     
