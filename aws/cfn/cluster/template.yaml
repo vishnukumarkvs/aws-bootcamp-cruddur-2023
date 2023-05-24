@@ -199,6 +199,7 @@ Resources:
           CidrIp: '0.0.0.0/0'
           Description: INTERNET HTTP
   # We have to create this SG before the service so we can pass it to database SG
+  # This SG is explicitly for RDS database, so that backend service can access database
   ServiceSG:
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html
     Type: AWS::EC2::SecurityGroup
