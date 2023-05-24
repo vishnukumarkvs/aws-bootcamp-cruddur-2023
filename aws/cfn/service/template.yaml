@@ -136,21 +136,21 @@ Resources:
       RequiresCompatibilities:
         - 'FARGATE'
       ContainerDefinitions:
-        - Name: 'xray'
-          Image: 'public.ecr.aws/xray/aws-xray-daemon'
-          Essential: true
-          User: '1337'
-          PortMappings:
-            - Name: 'xray'
-              ContainerPort: 2000
-              Protocol: 'udp'
+        # - Name: 'xray'
+        #   Image: 'public.ecr.aws/xray/aws-xray-daemon'
+        #   Essential: true
+        #   User: '1337'
+        #   PortMappings:
+        #     - Name: 'xray'
+        #       ContainerPort: 2000
+        #       Protocol: 'udp'
         - Name: 'backend-flask'
           Image: !Ref EcrImage 
           Essential: true
           HealthCheck:
             Command:
               - 'CMD-SHELL'
-              - 'python /backend-flask/bin/health-check'
+              - 'python /backend-flask/bin/flask/health-check'
             Interval: 30
             Timeout: 5
             Retries: 3
@@ -181,6 +181,8 @@ Resources:
               Value: !Ref EnvBackendUrl
             - Name: 'AWS_DEFAULT_REGION'
               Value: !Ref AWS::Region
+            - Name: 'AWS_XRAY_SDK_ENABLED'
+              Value: "False"
           Secrets:
             - Name: 'AWS_ACCESS_KEY_ID'
               ValueFrom: !Ref SecretsAWSAccessKeyId

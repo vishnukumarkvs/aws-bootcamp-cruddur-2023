@@ -22,7 +22,7 @@ Parameters:
     Type: String
     Default: cruddur-instance
   DBName:
-    Tyep: String
+    Type: String
     Default: cruddur
   DeletionProtection:
     Type: String
@@ -71,7 +71,7 @@ Resources:
     Properties:
       AllocatedStorage: '20'
       AllowMajorVersionUpgrade: true
-      AllowMinorVersionUpgrade: true
+      AutoMinorVersionUpgrade: true
       BackupRetentionPeriod: !Ref BackupRetentionPeriod
       DBInstanceClass: !Ref DBInstanceClass
       DBInstanceIdentifier: !Ref DBInstanceIdentifier
