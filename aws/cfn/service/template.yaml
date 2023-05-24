@@ -5,6 +5,8 @@ Description: |
   Execution Role
   Task Role
 
+# Order => TaskRole , Exceution Role -> Task Definition -> FargateService
+
 Parameters:
   NetworkingStack:
     Type: String
@@ -194,7 +196,7 @@ Resources:
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html
     Type: AWS::IAM::Role
     Properties:
-      RoleName: CruddurServiceExecutionRole
+      RoleName: CruddurServiceExecutionRole1
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -203,7 +205,7 @@ Resources:
               Service: 'ecs-tasks.amazonaws.com'
             Action: 'sts:AssumeRole'
       Policies:
-        - PolicyName: 'cruddur-execution-policy'
+        - PolicyName: 'cruddur-execution-policy-1'
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
@@ -229,7 +231,7 @@ Resources:
     # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html
     Type: AWS::IAM::Role
     Properties:
-      RoleName: CruddurServiceTaskRole
+      RoleName: CruddurServiceTaskRole1
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -238,7 +240,7 @@ Resources:
               Service: 'ecs-tasks.amazonaws.com'
             Action: 'sts:AssumeRole'
       Policies:
-        - PolicyName: 'cruddur-task-policy'
+        - PolicyName: 'cruddur-task-policy-1'
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
