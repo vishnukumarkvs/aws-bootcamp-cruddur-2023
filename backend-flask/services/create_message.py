@@ -5,7 +5,7 @@ from lib.ddb import Ddb
 
 class CreateMessage:
   # mode indicates if we want to create a new message_group or using an existing one
-  def run(mode, message, cognito_user_id, message_group_uuid=None, user_receiver_handle=None):
+  def run(logger, mode, message, cognito_user_id, message_group_uuid=None, user_receiver_handle=None):
     model = {
       'errors': None,
       'data': None
@@ -46,16 +46,16 @@ class CreateMessage:
         'cognito_user_id': cognito_user_id,
         'user_receiver_handle': rev_handle
       })
-      print("USERS =-=-=-=-==")
-      print(users)
+      logger.info("USERS =-=-=-=-==")
+      logger.info(users)
 
       my_user    = next((item for item in users if item["kind"] == 'sender'), None)
       other_user = next((item for item in users if item["kind"] == 'recv')  , None)
 
-      print("USERS=[my-user]==")
-      print(my_user)
-      print("USERS=[other-user]==")
-      print(other_user)
+      logger.info("USERS=[my-user]==")
+      logger.info(my_user)
+      logger.info("USERS=[other-user]==") 
+      logger.info(other_user)
 
       ddb = Ddb.client()
 

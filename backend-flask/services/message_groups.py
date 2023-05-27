@@ -4,13 +4,15 @@ from lib.ddb import Ddb
 from lib.db import db
 
 class MessageGroups:
-  def run(cognito_user_id):
+  def run(logger, cognito_user_id):
     model = {
       'errors': None,
       'data': None
     }
 
     sql = db.template('users','uuid_from_cognito_user_id')
+    logger.info("sql to get user")
+    logger.info(sql)
     my_user_uuid = db.query_value(sql,{
       'cognito_user_id': cognito_user_id
     })

@@ -213,7 +213,7 @@ def data_message_groups():
   if is_auth:
     app.logger.info('******Authenticated********')
     app.logger.debug(cognito_user_id)
-    model = MessageGroups.run(cognito_user_id=cognito_user_id)
+    model = MessageGroups.run(logger=LOGGER, cognito_user_id=cognito_user_id)
     if model['errors'] is not None:
       return model['errors'], 422
     else:
@@ -261,6 +261,7 @@ def data_create_message():
     if message_group_uuid == None:
       # Create for the first time
       model = CreateMessage.run(
+        logger=LOGGER,
         mode="create",
         message=message,
         cognito_user_id=cognito_user_id,
@@ -269,6 +270,7 @@ def data_create_message():
     else:
       # Push onto existing Message Group
       model = CreateMessage.run(
+        logger=LOGGER,
         mode="update",
         message=message,
         message_group_uuid=message_group_uuid,
