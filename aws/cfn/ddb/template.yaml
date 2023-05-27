@@ -45,8 +45,10 @@ Resources:
   ProcessDynamoDBStream:
     Type: AWS::Serverless::Function
     Properties:
+      Architectures: arm64
       Handler: lambda_handler
       Runtime: python3.8
+      Role: !GetAtt ExecutionRole.Arn
       Events:
         Stream:
           Type: DynamoDB
