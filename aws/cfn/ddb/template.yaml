@@ -3,7 +3,21 @@ Transform: AWS::Serverless-2016-10-31
 Description: |
   - Dynamodb table
   - Dynamodb Stream
- 
+
+Parameters:
+  PythonRuntime:
+    Type: String
+    Default: python3.9
+  MemorySize:
+    Type: String
+    Default:  128
+  Timeout:
+    Type: Number
+    Default: 3
+  DeletionProtectionEnabled:
+    Type: String
+    Default: false
+
 Resources:
   DynamoDBTable:
     Type: AWS::DynamoDB::Table
@@ -25,7 +39,7 @@ Resources:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
       BillingMode: PROVISIONED
-      DeletionProtectionEnabled: false
+      DeletionProtectionEnabled: !Ref DeletionProtectionEnabled
       GlobalSecondaryIndexes:
         - IndexName: message-group-sk-index
           KeySchema: 
@@ -45,17 +59,20 @@ Resources:
   ProcessDynamoDBStream:
     Type: AWS::Serverless::Function
     Properties:
-      Architectures: arm64
+      CodeUri: cruddur-messaging-stream
+      PackageType: Zip
       Handler: lambda_handler
-      Runtime: python3.8
+      Runtime: !Ref PythonRuntime
       Role: !GetAtt ExecutionRole.Arn
+      MemorySize: !Ref MemorySize
+      Timeout: !Ref Timeout
       Events:
         Stream:
           Type: DynamoDB
           Properties:
             Stream: !GetAtt DynamoDBTable.StreamArn
-            BatchSize: 100
-            StartingPosition: TRIM_HORIZON
+            BatchSize: 1
+            StartingPosition: LATEST
 
 
   LambdaLogGroup:
