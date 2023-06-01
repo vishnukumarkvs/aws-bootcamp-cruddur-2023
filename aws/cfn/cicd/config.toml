@@ -1,0 +1,11 @@
+[deploy]
+bucket = 'cfn-artifacts-kvs'
+region = 'us-east-1'
+stack_name = 'CrudCicd'
+
+[parameters]
+ServiceStack = 'CrudSrvBackendFlask'
+ClusterStack = 'CrudCluster'
+GitHubBranch = 'prod'
+GithubRepo = 'aws-bootcamp-cruddur-2023'
+ArtifactBucketName = "codepipeline-cruddur-artifacts-kvs"
