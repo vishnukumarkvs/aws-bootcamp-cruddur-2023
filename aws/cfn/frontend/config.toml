@@ -1,0 +1,9 @@
+[deploy]
+bucket = 'cfn-artifacts-kvs'
+region = 'us-east-1'
+stack_name = 'CrudFrontend'
+
+[parameters]
+CertificateArn = 'arn:aws:acm:us-east-1:895656015678:certificate/462c52f9-ef12-416c-80cc-60b0f57f6b30'
+WwwBucketName = 'www.cruddur.vishnukvs.xyz'
+RootBucketName = 'cruddur.vishnukvs.xyz'
