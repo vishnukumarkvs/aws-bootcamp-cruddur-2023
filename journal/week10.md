@@ -63,4 +63,30 @@ rustc --version
 - check aws audity manager, iam access analyzer etc
 
 
-  
+# Work
+- VPC Resource Map
+![FINAL NETWORK RESOURCE MAP](https://github.com/vishnukumarkvs/aws-bootcamp-cruddur-2023/assets/116954249/3ac8e773-d2b3-4b58-ab67-d0bea95cd861)
+
+- Basic Cluster Deploy
+![deploy basic ecs cluster stack](https://github.com/vishnukumarkvs/aws-bootcamp-cruddur-2023/assets/116954249/7a32aefc-8ce4-423b-8740-5db615c4a3fb)
+
+- ECS Cluster Changeset
+![ecs changeset](https://github.com/vishnukumarkvs/aws-bootcamp-cruddur-2023/assets/116954249/ad8977c4-8d7e-4684-984c-6f2ee171d351)
+
+- DynamoDB Table
+![ddb done](https://github.com/vishnukumarkvs/aws-bootcamp-cruddur-2023/assets/116954249/da11c714-8907-4423-913b-af0ea2841cfb)
+
+- DDB SAM Packge
+![package sam done](https://github.com/vishnukumarkvs/aws-bootcamp-cruddur-2023/assets/116954249/5fab997b-b2c2-48c8-a60c-5d4e4d79ed73)
+
+- DDB Stream
+![sam build done](https://github.com/vishnukumarkvs/aws-bootcamp-cruddur-2023/assets/116954249/ac7a28dd-24d5-42ae-868e-f0454fb9af97)
+
+- Backend Service
+![backend service success](https://github.com/vishnukumarkvs/aws-bootcamp-cruddur-2023/assets/116954249/14ebe767-06c6-4d33-b734-58f416d5876d)
+
+- CI/ CD
+![cicd](https://github.com/vishnukumarkvs/aws-bootcamp-cruddur-2023/assets/116954249/8cb5b0ff-eec3-4616-9b9e-cfae2da5ede4)
+
+
+
